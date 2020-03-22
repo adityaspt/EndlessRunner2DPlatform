@@ -92,7 +92,7 @@ public class MoveSquare : MonoBehaviour
         
         rb2D.AddForce(transform.up * power);
         JumpCount++;
-        print(JumpCount);
+        //print(JumpCount);
         //anim.SetTrigger("JumpDown");
     }
 
