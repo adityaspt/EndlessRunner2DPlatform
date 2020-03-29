@@ -42,7 +42,7 @@ public class PlatfromGenerator : MonoBehaviour
             platformSelector = UnityEngine.Random.Range(0, objectpools.Length);
             DistanceBetween = Convert.ToInt32(UnityEngine.Random.Range(DistanceBetweenMin, DistanceBetweenMax));
             
-            transform.position = new Vector3(transform.position.x + DistanceBetween + PlatformWidthsArray[platformSelector], transform.position.y, transform.position.z);
+            transform.position = new Vector3(transform.position.x + DistanceBetween + (PlatformWidthsArray[platformSelector]/2), transform.position.y, transform.position.z);
 
             //Instantiate(platformPrefabsArray[platformSelector],transform.position,transform.rotation);
 
@@ -51,6 +51,8 @@ public class PlatfromGenerator : MonoBehaviour
             newPlatform.transform.position = transform.position;
             newPlatform.transform.rotation = transform.rotation;
             newPlatform.SetActive(true);
+            transform.position = new Vector3(transform.position.x + (PlatformWidthsArray[platformSelector] / 2), transform.position.y, transform.position.z);
+
         }
     }
 }

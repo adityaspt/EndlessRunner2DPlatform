@@ -195,7 +195,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7af747fca65196f44aaa92a8eec1ab51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pooledObject: {fileID: 9038128185885701866, guid: c5bdc38a17ca69e4792bbbe2cbacb4de,
+  pooledObject: {fileID: 3045492108000189676, guid: c5bdc38a17ca69e4792bbbe2cbacb4de,
     type: 3}
   pooledAmount: 2
 --- !u!4 &254900191
@@ -934,7 +934,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7af747fca65196f44aaa92a8eec1ab51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pooledObject: {fileID: 6115830376906534513, guid: c32c96e1d1dd88c44a9d9a54ad293ac2,
+  pooledObject: {fileID: 6164282123383469119, guid: c32c96e1d1dd88c44a9d9a54ad293ac2,
     type: 3}
   pooledAmount: 2
 --- !u!1 &986725838
@@ -1208,7 +1208,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7af747fca65196f44aaa92a8eec1ab51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pooledObject: {fileID: 6888978136375058130, guid: f1215eccaf6a8dc49ac7ffcbfbd02807,
+  pooledObject: {fileID: 5308995854706079922, guid: f1215eccaf6a8dc49ac7ffcbfbd02807,
     type: 3}
   pooledAmount: 2
 --- !u!1 &1489554614
@@ -1484,7 +1484,7 @@ MonoBehaviour:
     type: 3}
   PlatformWidthsArray: []
   GenerationPoint: {fileID: 291825981}
-  DistanceBetweenMin: 2
+  DistanceBetweenMin: 1
   DistanceBetweenMax: 6
   objectpools:
   - {fileID: 254900190}
@@ -1499,7 +1499,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1566287276}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.403, y: -0.07, z: 0}
+  m_LocalPosition: {x: 6.91, y: -2.23, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1767,7 +1767,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7af747fca65196f44aaa92a8eec1ab51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pooledObject: {fileID: 9024585643347033593, guid: 26ed67c52265ea54d8dd6e1ab064e618,
+  pooledObject: {fileID: 695857053105614818, guid: 26ed67c52265ea54d8dd6e1ab064e618,
     type: 3}
   pooledAmount: 2
 --- !u!1 &1661840484
@@ -2033,7 +2033,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1687235569}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.9, y: -0.35, z: 0}
+  m_LocalPosition: {x: -4.9, y: 2.87, z: 0}
   m_LocalScale: {x: 1.3210659, y: 1.3344617, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2048,7 +2048,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 1687235569}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 8cdb388d5009d9c49aee06e8c3a27b11, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0

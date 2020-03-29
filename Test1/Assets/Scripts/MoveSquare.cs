@@ -14,6 +14,7 @@ public class MoveSquare : MonoBehaviour
     private BoxCollider2D BCol2d;
     private Animator anim;
     private float lastPosY = 0.0f;
+    private bool isJumped = false;
 
 
     void Start()
@@ -22,6 +23,7 @@ public class MoveSquare : MonoBehaviour
         rb2D = gameObject.GetComponent<Rigidbody2D>();
         BCol2d = GetComponent<BoxCollider2D>();
         lastPosY = rb2D.position.y;
+       //isJumped = false;
     }
 
 
@@ -62,6 +64,7 @@ public class MoveSquare : MonoBehaviour
         if (Grounded)
         {
             anim.SetBool("Grounded", true);
+            isJumped = false;
         }
         else
             anim.SetBool("Grounded", false);
@@ -82,10 +85,15 @@ public class MoveSquare : MonoBehaviour
         {
             anim.SetTrigger("Jump");
         }
-        else if(lastY > rb2D.position.y && !Grounded)
+        else if(lastY > rb2D.position.y && !Grounded && isJumped)
         {
             anim.SetTrigger("JumpDown");
         }
+        else if (lastY > rb2D.position.y && !Grounded && !isJumped)
+        {
+            anim.SetTrigger("JumpDown");
+        }
+        //else if(lastY > rb2D.position.y && !Grounded)
     }
 
     public void Jump(float power)
@@ -93,6 +101,7 @@ public class MoveSquare : MonoBehaviour
         
         rb2D.AddForce(transform.up * power);
         JumpCount++;
+        isJumped = true;
         //print(JumpCount);
         //anim.SetTrigger("JumpDown");
     }
