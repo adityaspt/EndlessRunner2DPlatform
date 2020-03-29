@@ -14,7 +14,7 @@ public class PlatfromGenerator : MonoBehaviour
     [SerializeField]
     private float DistanceBetweenMax = 6f;
     private float PlatformWidth;
-    
+    public ObjectPooler objectpool;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,10 +27,16 @@ public class PlatfromGenerator : MonoBehaviour
 
         if(transform.position.x<GenerationPoint.position.x)
         {
+            DistanceBetween = Convert.ToInt32(UnityEngine.Random.Range(DistanceBetweenMin, DistanceBetweenMax));
             transform.position = new Vector3(transform.position.x + DistanceBetween + PlatformWidth, transform.position.y, transform.position.z);
         
             Instantiate(platformPrefab,transform.position,transform.rotation);
-            DistanceBetween = Convert.ToInt32(UnityEngine.Random.Range(DistanceBetweenMin, DistanceBetweenMax));   
+            
+            GameObject newPlatform= objectpool.GetPooledObjects();
+            //Instantiate(newPlatform, transform.position, transform.rotation);
+            newPlatform.transform.position = transform.position;
+            newPlatform.transform.rotation = transform.rotation;
+            newPlatform.SetActive(true);
         }
     }
 }
