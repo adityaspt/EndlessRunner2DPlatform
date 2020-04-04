@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MoveSquare : MonoBehaviour
 {
+    public static MoveSquare mainInstance;
     public float speed = 5f;
     float horizontal;
     public float JumpPower = 3f;
@@ -11,17 +12,25 @@ public class MoveSquare : MonoBehaviour
     public bool Grounded;
     private int JumpCount = 0;
     public LayerMask groundLayer;
-    private BoxCollider2D BCol2d;
+    public LayerMask fireLayer;
+   // private BoxCollider2D BCol2d;
     private Animator anim;
     private float lastPosY = 0.0f;
     private bool isJumped = false;
 
 
+    public Transform GroundCheck;
+    public float groundcheckRadius;
+   // private bool caughtOnFire = false; 
+
+
     void Start()
     {
+        mainInstance = this;
+
         anim = GetComponent<Animator>();
         rb2D = gameObject.GetComponent<Rigidbody2D>();
-        BCol2d = GetComponent<BoxCollider2D>();
+        //BCol2d = GetComponent<BoxCollider2D>();
         lastPosY = rb2D.position.y;
        //isJumped = false;
     }
@@ -29,7 +38,11 @@ public class MoveSquare : MonoBehaviour
 
     void Update()
     {
-        Grounded = Physics2D.IsTouchingLayers(BCol2d, groundLayer);
+        //caughtOnFire= Physics2D.IsTouchingLayers(BCol2d, fireLayer);
+
+        // Grounded = Physics2D.IsTouchingLayers(BCol2d, groundLayer);
+        Grounded = Physics2D.OverlapCircle(GroundCheck.position, groundcheckRadius, groundLayer);
+
         horizontal = Input.GetAxis("Horizontal");
         //rb2D.velocity = new Vector2(speed, rb2D.velocity.y);
         JumpAnimController(lastPosY);
@@ -72,6 +85,15 @@ public class MoveSquare : MonoBehaviour
         
 
 
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.name=="Fire")
+        {
+            GameManager.gameManagerInstance.RestartGame();
+                print("GameOver");
+           
+        }
     }
     public void Move(float horizontal)
     {
