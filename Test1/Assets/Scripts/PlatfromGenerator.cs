@@ -10,7 +10,13 @@ public class PlatfromGenerator : MonoBehaviour
     private int platformSelector;
     public float[] PlatformWidthsArray;
 
-
+    // Randomize Height
+    public float minHeight;
+    public float maxHeight;
+    public Transform maxHeightPoint;
+    public float maxHeightChange;
+    public float heightChange;
+    //
 
     public Transform GenerationPoint;
     
@@ -25,6 +31,8 @@ public class PlatfromGenerator : MonoBehaviour
     
     void Start()
     {
+        minHeight = transform.position.y;
+        maxHeight = maxHeightPoint.transform.position.y;
         PlatformWidthsArray = new float[objectpools.Length];
         //PlatformWidth = platformPrefab.GetComponent<BoxCollider2D>().size.x;
         for(int i=0;i< objectpools.Length;i++)
@@ -41,8 +49,17 @@ public class PlatfromGenerator : MonoBehaviour
         {
             platformSelector = UnityEngine.Random.Range(0, objectpools.Length);
             DistanceBetween = Convert.ToInt32(UnityEngine.Random.Range(DistanceBetweenMin, DistanceBetweenMax));
+            heightChange = transform.position.y + Convert.ToInt32(UnityEngine.Random.Range(maxHeightChange, -maxHeightChange));
             
-            transform.position = new Vector3(transform.position.x + DistanceBetween + (PlatformWidthsArray[platformSelector]/2), transform.position.y, transform.position.z);
+            if(heightChange>maxHeight)
+            {
+                heightChange = maxHeight;
+            }
+            else if (heightChange < minHeight)
+            {
+                heightChange = minHeight;
+            }
+            transform.position = new Vector3(transform.position.x + DistanceBetween + (PlatformWidthsArray[platformSelector]/2), heightChange, transform.position.z);
 
             //Instantiate(platformPrefabsArray[platformSelector],transform.position,transform.rotation);
 

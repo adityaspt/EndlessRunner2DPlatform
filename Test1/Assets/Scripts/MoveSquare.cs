@@ -30,14 +30,14 @@ public class MoveSquare : MonoBehaviour
     void Update()
     {
         Grounded = Physics2D.IsTouchingLayers(BCol2d, groundLayer);
-        //horizontal = Input.GetAxis("Horizontal");
-        rb2D.velocity = new Vector2(speed, rb2D.velocity.y);
+        horizontal = Input.GetAxis("Horizontal");
+        //rb2D.velocity = new Vector2(speed, rb2D.velocity.y);
         JumpAnimController(lastPosY);
 
 
         lastPosY = rb2D.position.y;
 
-        //Move(horizontal);
+        Move(horizontal);
         anim.SetFloat("Speed", speed);
         //if(rb2D.position.y <lastY && !Grounded)
         //{
