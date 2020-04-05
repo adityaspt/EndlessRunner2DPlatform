@@ -88,7 +88,7 @@ public class MoveSquare : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.name=="Fire")
+        if(collision.name=="FireWall")
         {
             GameManager.gameManagerInstance.RestartGame();
                 print("GameOver");

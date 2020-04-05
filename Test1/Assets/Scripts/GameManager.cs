@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public EmptyObjMove emptyObj;
     private Vector3 emptyObjstartPoint;
     public PlatformDestroy[] platfromList;
+    private ScoreManager scoremanager;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,6 +20,7 @@ public class GameManager : MonoBehaviour
         platformStartPoint = platformGenerator.position;
         playerStartPoint = thePlayer.transform.position;
         emptyObjstartPoint = emptyObj.transform.position;
+        scoremanager = FindObjectOfType<ScoreManager>();
     }
     public void RestartGame()
     {
@@ -26,6 +28,7 @@ public class GameManager : MonoBehaviour
     }
     public IEnumerator restartGameCall()
     {
+        
         thePlayer.gameObject.SetActive(false);
         yield return new WaitForSeconds(1f);
         platfromList = FindObjectsOfType<PlatformDestroy>();
@@ -33,7 +36,8 @@ public class GameManager : MonoBehaviour
         {
             platfromList[i].gameObject.SetActive(false);
         }
-
+        scoremanager.scoreCount = 0;
+        
         thePlayer.transform.position = playerStartPoint;
         platformGenerator.position = platformStartPoint;
         emptyObj.transform.position = emptyObjstartPoint;
