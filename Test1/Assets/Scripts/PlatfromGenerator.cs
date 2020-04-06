@@ -27,10 +27,13 @@ public class PlatfromGenerator : MonoBehaviour
     private float DistanceBetweenMax = 6f;
     private float PlatformWidth;
     public ObjectPooler[] objectpools;
+    public float randomCointhreshold;
+    private CoinGenerator coinGen;
     // Start is called before the first frame update
     
     void Start()
     {
+        coinGen = FindObjectOfType<CoinGenerator>();
         minHeight = transform.position.y;
         maxHeight = maxHeightPoint.transform.position.y;
         PlatformWidthsArray = new float[objectpools.Length];
@@ -68,6 +71,8 @@ public class PlatfromGenerator : MonoBehaviour
             newPlatform.transform.position = transform.position;
             newPlatform.transform.rotation = transform.rotation;
             newPlatform.SetActive(true);
+            if(Convert.ToInt32(UnityEngine.Random.Range(0f,100f))<randomCointhreshold)
+            coinGen.SpawnCoins(new Vector3(transform.position.x,transform.position.y+1f,transform.position.z));
             transform.position = new Vector3(transform.position.x + (PlatformWidthsArray[platformSelector] / 2), transform.position.y, transform.position.z);
 
         }

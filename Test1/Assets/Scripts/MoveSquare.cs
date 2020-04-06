@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class MoveSquare : MonoBehaviour
 {
+    //Audio
+    public AudioSource jumpSound;
+    public AudioSource deathSound;
+    
+    //Audio
+
+
+
     public static MoveSquare mainInstance;
     public float speed = 5f;
     float horizontal;
@@ -90,6 +98,7 @@ public class MoveSquare : MonoBehaviour
     {
         if(collision.name=="FireWall")
         {
+            deathSound.Play();
             GameManager.gameManagerInstance.RestartGame();
                 print("GameOver");
            
@@ -124,6 +133,17 @@ public class MoveSquare : MonoBehaviour
         rb2D.AddForce(transform.up * power);
         JumpCount++;
         isJumped = true;
+
+        if (jumpSound.isPlaying)
+        {
+            jumpSound.Stop();
+            jumpSound.Play();
+        }
+        else
+        {
+            jumpSound.Play();
+        }
+        jumpSound.Play();
         //print(JumpCount);
         //anim.SetTrigger("JumpDown");
     }

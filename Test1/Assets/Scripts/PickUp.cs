@@ -5,12 +5,13 @@ using UnityEngine;
 public class PickUp : MonoBehaviour
 
 {
+    public AudioSource coinSound;
     public int ScoreToGive;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        coinSound = GameObject.Find("CoinSound").GetComponent<AudioSource>();
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -18,13 +19,23 @@ public class PickUp : MonoBehaviour
         {
             print("Get coijn");
             ScoreManager.instance.AddScore(ScoreToGive);
+            if(coinSound.isPlaying)
+            {
+                coinSound.Stop();
+                coinSound.Play();
+            }
+            else
+            {
+                coinSound.Play();
+            }
+            
             gameObject.SetActive(false);
 
         }
     }
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        
+       transform.localScale =new Vector3(transform.localScale.x*-1, transform.localScale.y, transform.localScale.z) ;
     }
 }

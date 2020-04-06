@@ -13,9 +13,12 @@ public class GameManager : MonoBehaviour
     private Vector3 emptyObjstartPoint;
     public PlatformDestroy[] platfromList;
     private ScoreManager scoremanager;
+    public DeathMenu deathscreen;
+   // public PauseMenu pauseScreen;
     // Start is called before the first frame update
     void Start()
     {
+        
         gameManagerInstance = this;
         platformStartPoint = platformGenerator.position;
         playerStartPoint = thePlayer.transform.position;
@@ -24,20 +27,20 @@ public class GameManager : MonoBehaviour
     }
     public void RestartGame()
     {
-        StartCoroutine("restartGameCall");
-    }
-    public IEnumerator restartGameCall()
-    {
-        
         thePlayer.gameObject.SetActive(false);
-        yield return new WaitForSeconds(1f);
+        deathscreen.gameObject.SetActive(true);
+       // StartCoroutine("restartGameCall");
+    }
+    public void ResetGamePlay()
+    {
+        deathscreen.gameObject.SetActive(false);
         platfromList = FindObjectsOfType<PlatformDestroy>();
-        for (int i=0; i < platfromList.Length;i++)
+        for (int i = 0; i < platfromList.Length; i++)
         {
             platfromList[i].gameObject.SetActive(false);
         }
         scoremanager.scoreCount = 0;
-        
+
         thePlayer.transform.position = playerStartPoint;
         platformGenerator.position = platformStartPoint;
         emptyObj.transform.position = emptyObjstartPoint;
@@ -45,7 +48,28 @@ public class GameManager : MonoBehaviour
         EmptyObjMove.emptyObjInstance.speed = EmptyObjMove.emptyObjInstance.speedStore;
         EmptyObjMove.emptyObjInstance.speedMilestoneTarget = EmptyObjMove.emptyObjInstance.speedMilestoneTargetStore;
         EmptyObjMove.emptyObjInstance.speedMilestoneCount = EmptyObjMove.emptyObjInstance.speedMilestoneTargetStore;
+
     }
+    //public IEnumerator restartGameCall()
+    //{
+        
+    //    thePlayer.gameObject.SetActive(false);
+    //    yield return new WaitForSeconds(1f);
+    //    platfromList = FindObjectsOfType<PlatformDestroy>();
+    //    for (int i=0; i < platfromList.Length;i++)
+    //    {
+    //        platfromList[i].gameObject.SetActive(false);
+    //    }
+    //    scoremanager.scoreCount = 0;
+        
+    //    thePlayer.transform.position = playerStartPoint;
+    //    platformGenerator.position = platformStartPoint;
+    //    emptyObj.transform.position = emptyObjstartPoint;
+    //    thePlayer.gameObject.SetActive(true);
+    //    EmptyObjMove.emptyObjInstance.speed = EmptyObjMove.emptyObjInstance.speedStore;
+    //    EmptyObjMove.emptyObjInstance.speedMilestoneTarget = EmptyObjMove.emptyObjInstance.speedMilestoneTargetStore;
+    //    EmptyObjMove.emptyObjInstance.speedMilestoneCount = EmptyObjMove.emptyObjInstance.speedMilestoneTargetStore;
+    //}
     // Update is called once per frame
     void Update()
     {
