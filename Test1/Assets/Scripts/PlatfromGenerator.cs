@@ -29,6 +29,12 @@ public class PlatfromGenerator : MonoBehaviour
     public ObjectPooler[] objectpools;
     public float randomCointhreshold;
     private CoinGenerator coinGen;
+    float test;
+    //Spikes
+
+    public float randomSpikesThreshold;
+    public ObjectPooler spikePool;
+    private bool SpikePlaced = false;
     // Start is called before the first frame update
     
     void Start()
@@ -71,8 +77,30 @@ public class PlatfromGenerator : MonoBehaviour
             newPlatform.transform.position = transform.position;
             newPlatform.transform.rotation = transform.rotation;
             newPlatform.SetActive(true);
-            if(Convert.ToInt32(UnityEngine.Random.Range(0f,100f))<randomCointhreshold)
-            coinGen.SpawnCoins(new Vector3(transform.position.x,transform.position.y+1f,transform.position.z));
+            test = Convert.ToInt32(UnityEngine.Random.Range(0f, 100f));
+            if (test < randomSpikesThreshold )
+            {
+                GameObject newSpike = spikePool.GetPooledObjects();
+                float spikeXPos = UnityEngine.Random.Range((-PlatformWidthsArray[platformSelector] / 2f) + 2.5f, (PlatformWidthsArray[platformSelector] / 2f) - 1f);
+                Vector3 spikePos = new Vector3(spikeXPos, 0.75f, 0f);
+                newSpike.transform.position = transform.position + spikePos;
+                newSpike.transform.rotation = transform.rotation;
+                newSpike.SetActive(true);
+                SpikePlaced = true;
+
+            }
+           
+            if (Convert.ToInt32(UnityEngine.Random.Range(0f, 100f)) < randomCointhreshold )
+           // if(100f-test<randomCointhreshold)
+            {
+                //if (SpikePlaced)
+                //{
+                    coinGen.SpawnCoins(new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z));
+                    SpikePlaced = false;
+                //}
+                
+            }
+            
             transform.position = new Vector3(transform.position.x + (PlatformWidthsArray[platformSelector] / 2), transform.position.y, transform.position.z);
 
         }

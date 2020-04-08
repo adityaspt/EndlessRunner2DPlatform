@@ -96,13 +96,22 @@ public class MoveSquare : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.name=="FireWall")
+        //if(collision.name=="FireWall")
+        //{
+        //    deathSound.Play();
+        //    GameManager.gameManagerInstance.RestartGame();
+        //        print("GameOver");
+           
+        //}
+        //else 
+        if (collision.CompareTag( "Kill"))
         {
             deathSound.Play();
             GameManager.gameManagerInstance.RestartGame();
-                print("GameOver");
-           
+            print("GameOver");
+
         }
+
     }
     public void Move(float horizontal)
     {
