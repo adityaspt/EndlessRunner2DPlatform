@@ -7,7 +7,7 @@ public class MoveSquare : MonoBehaviour
     //Audio
     public AudioSource jumpSound;
     public AudioSource deathSound;
-    
+
     //Audio
 
 
@@ -21,7 +21,7 @@ public class MoveSquare : MonoBehaviour
     private int JumpCount = 0;
     public LayerMask groundLayer;
     public LayerMask fireLayer;
-   // private BoxCollider2D BCol2d;
+    // private BoxCollider2D BCol2d;
     private Animator anim;
     private float lastPosY = 0.0f;
     private bool isJumped = false;
@@ -29,8 +29,8 @@ public class MoveSquare : MonoBehaviour
 
     public Transform GroundCheck;
     public float groundcheckRadius;
-   // private bool caughtOnFire = false; 
-
+    // private bool caughtOnFire = false; 
+    private float hInput=0f;
 
     void Start()
     {
@@ -40,7 +40,7 @@ public class MoveSquare : MonoBehaviour
         rb2D = gameObject.GetComponent<Rigidbody2D>();
         //BCol2d = GetComponent<BoxCollider2D>();
         lastPosY = rb2D.position.y;
-       //isJumped = false;
+        //isJumped = false;
     }
 
 
@@ -50,15 +50,19 @@ public class MoveSquare : MonoBehaviour
 
         // Grounded = Physics2D.IsTouchingLayers(BCol2d, groundLayer);
         Grounded = Physics2D.OverlapCircle(GroundCheck.position, groundcheckRadius, groundLayer);
-
-        horizontal = Input.GetAxis("Horizontal");
-        //rb2D.velocity = new Vector2(speed, rb2D.velocity.y);
         JumpAnimController(lastPosY);
 
 
         lastPosY = rb2D.position.y;
 
-        Move(horizontal);
+#if !UNITY_ANDROID && !UNITY_IPHONE
+          horizontal = Input.GetAxis("Horizontal");
+        //rb2D.velocity = new Vector2(speed, rb2D.velocity.y);
+         Move(horizontal);
+#else
+        Move(hInput);
+#endif
+
         anim.SetFloat("Speed", speed);
         //if(rb2D.position.y <lastY && !Grounded)
         //{
@@ -74,14 +78,14 @@ public class MoveSquare : MonoBehaviour
         {
             JumpCount = 0;
             Jump(JumpPower);
-            
+
         }
         else if (!Grounded && JumpCount < 2 && Input.GetButtonDown("Jump"))
         {
             Jump(JumpPower);
         }
 
-        
+
         if (Grounded)
         {
             anim.SetBool("Grounded", true);
@@ -89,10 +93,14 @@ public class MoveSquare : MonoBehaviour
         }
         else
             anim.SetBool("Grounded", false);
-        
-        
 
 
+
+
+    }
+   public void StartMoving(float horizontalInput)
+    {
+        hInput = horizontalInput;
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -101,10 +109,10 @@ public class MoveSquare : MonoBehaviour
         //    deathSound.Play();
         //    GameManager.gameManagerInstance.RestartGame();
         //        print("GameOver");
-           
+
         //}
         //else 
-        if (collision.CompareTag( "Kill"))
+        if (collision.CompareTag("Kill"))
         {
             deathSound.Play();
             GameManager.gameManagerInstance.RestartGame();
@@ -117,15 +125,19 @@ public class MoveSquare : MonoBehaviour
     {
 
         transform.position = new Vector3(transform.position.x + horizontal * speed * Time.deltaTime, transform.position.y, transform.position.z);
+        //Vector2 vel = rb2D.velocity;
+        
+        //vel.x = horizontal * speed;
+        //rb2D.velocity = vel;
     }
 
     public void JumpAnimController(float lastY)
     {
-        if(lastY<rb2D.position.y && !Grounded)
+        if (lastY < rb2D.position.y && !Grounded)
         {
             anim.SetTrigger("Jump");
         }
-        else if(lastY > rb2D.position.y && !Grounded && isJumped)
+        else if (lastY > rb2D.position.y && !Grounded && isJumped)
         {
             anim.SetTrigger("JumpDown");
         }
@@ -138,7 +150,7 @@ public class MoveSquare : MonoBehaviour
 
     public void Jump(float power)
     {
-        
+
         rb2D.AddForce(transform.up * power);
         JumpCount++;
         isJumped = true;

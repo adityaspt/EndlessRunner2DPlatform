@@ -36,7 +36,9 @@ public class PlatfromGenerator : MonoBehaviour
     public ObjectPooler spikePool;
     private bool SpikePlaced = false;
     // Start is called before the first frame update
-    
+    public ObjectPooler powerUpPool;
+    public float powerUpThreshold;
+    public float powerUpHeight;
     void Start()
     {
         coinGen = FindObjectOfType<CoinGenerator>();
@@ -72,6 +74,15 @@ public class PlatfromGenerator : MonoBehaviour
 
             //Instantiate(platformPrefabsArray[platformSelector],transform.position,transform.rotation);
 
+            if(UnityEngine.Random.Range(0,100f)<powerUpThreshold)
+            {
+                GameObject newPowerUp = powerUpPool.GetPooledObjects();
+                
+                newPowerUp.transform.position = transform.position + new Vector3(DistanceBetween / 2,UnityEngine.Random.Range(powerUpHeight/2, powerUpHeight), 0f);
+                newPowerUp.SetActive(true);
+            }
+
+
             GameObject newPlatform = objectpools[platformSelector].GetPooledObjects();
 
             newPlatform.transform.position = transform.position;
@@ -81,7 +92,8 @@ public class PlatfromGenerator : MonoBehaviour
             if (test < randomSpikesThreshold )
             {
                 GameObject newSpike = spikePool.GetPooledObjects();
-                float spikeXPos = UnityEngine.Random.Range((-PlatformWidthsArray[platformSelector] / 2f) + 2.5f, (PlatformWidthsArray[platformSelector] / 2f) - 1f);
+               float spikeXPos = UnityEngine.Random.Range((-PlatformWidthsArray[platformSelector] / 2f) + 2.5f, (PlatformWidthsArray[platformSelector] / 2f) - 1f);
+                //float spikeXPos = UnityEngine.Random.Range(-PlatformWidthsArray[platformSelector] / 2, PlatformWidthsArray[platformSelector] / 2);
                 Vector3 spikePos = new Vector3(spikeXPos, 0.75f, 0f);
                 newSpike.transform.position = transform.position + spikePos;
                 newSpike.transform.rotation = transform.rotation;
