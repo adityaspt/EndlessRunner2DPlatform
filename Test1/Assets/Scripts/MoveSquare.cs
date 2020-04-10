@@ -131,6 +131,10 @@ public class MoveSquare : MonoBehaviour
         }
 
     }
+
+   
+
+
     public void Move(float horizontal)
     {
 
