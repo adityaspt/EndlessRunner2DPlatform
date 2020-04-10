@@ -31,6 +31,7 @@ public class MoveSquare : MonoBehaviour
     public float groundcheckRadius;
     // private bool caughtOnFire = false; 
     private float hInput=0f;
+    bool jumpDevice = false;
 
     void Start()
     {
@@ -73,16 +74,17 @@ public class MoveSquare : MonoBehaviour
         //    anim.SetTrigger("Jump");
         //}
 
-
-        if (Input.GetButtonDown("Jump") && Grounded)
+        
+        if ((Input.GetButtonDown("Jump") && Grounded) || (jumpDevice && Grounded))
         {
             JumpCount = 0;
             Jump(JumpPower);
-
+            jumpDevice = false;
         }
-        else if (!Grounded && JumpCount < 2 && Input.GetButtonDown("Jump"))
+        else if ((!Grounded && JumpCount < 2 && Input.GetButtonDown("Jump")) || (!Grounded && JumpCount < 2 && jumpDevice))
         {
             Jump(JumpPower);
+            jumpDevice = false;
         }
 
 
@@ -98,7 +100,15 @@ public class MoveSquare : MonoBehaviour
 
 
     }
-   public void StartMoving(float horizontalInput)
+
+    public void JumpDeviceButton()
+    {
+        jumpDevice = true;
+        
+    }
+
+
+    public void StartMoving(float horizontalInput)
     {
         hInput = horizontalInput;
     }
