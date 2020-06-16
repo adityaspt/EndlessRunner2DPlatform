@@ -17,7 +17,7 @@ public class PickUp : MonoBehaviour
     {
         if(collision.CompareTag("Player"))
         {
-            print("Get coijn");
+            print("Get coin");
             ScoreManager.instance.AddScore(ScoreToGive);
             if(coinSound.isPlaying)
             {

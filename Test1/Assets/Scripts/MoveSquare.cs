@@ -11,7 +11,7 @@ public class MoveSquare : MonoBehaviour
     //Audio
 
 
-
+    public bool isFacingRight = true;
     public static MoveSquare mainInstance;
     public float speed = 5f;
     float horizontal;
@@ -21,7 +21,7 @@ public class MoveSquare : MonoBehaviour
     private int JumpCount = 0;
     public LayerMask groundLayer;
     public LayerMask fireLayer;
-    // private BoxCollider2D BCol2d;
+
     private Animator anim;
     private float lastPosY = 0.0f;
     private bool isJumped = false;
@@ -29,52 +29,57 @@ public class MoveSquare : MonoBehaviour
 
     public Transform GroundCheck;
     public float groundcheckRadius;
-    // private bool caughtOnFire = false; 
-    private float hInput=0f;
+
+    private float hInput = 0f;
     bool jumpDevice = false;
 
     void Start()
     {
         mainInstance = this;
-
+        isFacingRight = true;
         anim = GetComponent<Animator>();
         rb2D = gameObject.GetComponent<Rigidbody2D>();
-        //BCol2d = GetComponent<BoxCollider2D>();
+
         lastPosY = rb2D.position.y;
-        //isJumped = false;
+
     }
 
 
     void Update()
     {
-        //caughtOnFire= Physics2D.IsTouchingLayers(BCol2d, fireLayer);
 
-        // Grounded = Physics2D.IsTouchingLayers(BCol2d, groundLayer);
         Grounded = Physics2D.OverlapCircle(GroundCheck.position, groundcheckRadius, groundLayer);
         JumpAnimController(lastPosY);
 
 
         lastPosY = rb2D.position.y;
 
-#if !UNITY_ANDROID && !UNITY_IPHONE
-          horizontal = Input.GetAxis("Horizontal");
-        //rb2D.velocity = new Vector2(speed, rb2D.velocity.y);
-         Move(horizontal);
-#else
+#if UNITY_EDITOR 
+        if (Input.GetAxis("Horizontal") != 0)
+        {
+            horizontal = Input.GetAxis("Horizontal");
+
+            Move(horizontal);
+            anim.SetFloat("Speed", speed);
+        }
+        else if (Input.GetAxis("Horizontal") == 0)
+        {
+            horizontal = Input.GetAxis("Horizontal");
+            Move(horizontal);
+
+
+            anim.SetFloat("Speed", 0);
+        }
+#endif
+#if UNITY_ANDROID && !UNITY_EDITOR
+        
         Move(hInput);
 #endif
 
-        anim.SetFloat("Speed", speed);
-        //if(rb2D.position.y <lastY && !Grounded)
-        //{
-        //    anim.SetTrigger("JumpDown");
-        //}
-        //else
-        //{
-        //    anim.SetTrigger("Jump");
-        //}
 
-        
+
+
+
         if ((Input.GetButtonDown("Jump") && Grounded) || (jumpDevice && Grounded))
         {
             JumpCount = 0;
@@ -104,24 +109,19 @@ public class MoveSquare : MonoBehaviour
     public void JumpDeviceButton()
     {
         jumpDevice = true;
-        
+
     }
 
 
     public void StartMoving(float horizontalInput)
     {
         hInput = horizontalInput;
+
+
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        //if(collision.name=="FireWall")
-        //{
-        //    deathSound.Play();
-        //    GameManager.gameManagerInstance.RestartGame();
-        //        print("GameOver");
 
-        //}
-        //else 
         if (collision.CompareTag("Kill"))
         {
             deathSound.Play();
@@ -132,17 +132,62 @@ public class MoveSquare : MonoBehaviour
 
     }
 
-   
+
 
 
     public void Move(float horizontal)
     {
 
+#if UNITY_EDITOR
+        if ((horizontal > 0 && !isFacingRight) || (horizontal < 0 && isFacingRight))
+        {
+            isFacingRight = !isFacingRight;
+
+
+            Vector2 theScale = transform.localScale;
+            theScale.x *= -1;
+            transform.localScale = theScale;
+        }
+
+#endif
+#if UNITY_ANDROID && !UNITY_EDITOR
+        if (horizontal != 0)
+        {
+            anim.SetFloat("Speed", speed);
+            //if (horizontal > 0)
+            //{
+            //    isFacingRight = true;
+            //}
+            //else
+            //{
+            //    isFacingRight = false;
+            //}
+            if ((horizontal > 0 && !isFacingRight) || (horizontal < 0 && isFacingRight))
+            {
+                isFacingRight = !isFacingRight;
+         Vector2 theScale = transform.localScale;
+            theScale.x *= -1;
+            transform.localScale = theScale;
+            }
+        }
+#endif
+        if (horizontal==0)
+        {
+            Vector2 theScale = transform.localScale;
+            theScale.x = 1;
+            transform.localScale = theScale;
+            isFacingRight = true;
+            anim.SetFloat("Speed", 0);
+        }
+
+
+
+
+
+
         transform.position = new Vector3(transform.position.x + horizontal * speed * Time.deltaTime, transform.position.y, transform.position.z);
-        //Vector2 vel = rb2D.velocity;
-        
-        //vel.x = horizontal * speed;
-        //rb2D.velocity = vel;
+
+
     }
 
     public void JumpAnimController(float lastY)
@@ -159,7 +204,7 @@ public class MoveSquare : MonoBehaviour
         {
             anim.SetTrigger("JumpDown");
         }
-        //else if(lastY > rb2D.position.y && !Grounded)
+
     }
 
     public void Jump(float power)
@@ -179,8 +224,7 @@ public class MoveSquare : MonoBehaviour
             jumpSound.Play();
         }
         jumpSound.Play();
-        //print(JumpCount);
-        //anim.SetTrigger("JumpDown");
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
