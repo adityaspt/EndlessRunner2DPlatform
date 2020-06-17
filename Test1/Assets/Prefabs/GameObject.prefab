@@ -92,6 +92,7 @@ GameObject:
   - component: {fileID: 9116180171528378674}
   - component: {fileID: 2697500747655765652}
   - component: {fileID: 4887707983305541794}
+  - component: {fileID: -327296774390892952}
   m_Layer: 8
   m_Name: GameObject
   m_TagString: Kill
@@ -155,6 +156,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   platformDestroyPoint: {fileID: 0}
+--- !u!210 &-327296774390892952
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3460395401633055438}
+  m_Enabled: 1
+  m_SortingLayerID: 153898399
+  m_SortingLayer: 1
+  m_SortingOrder: 0
 --- !u!1 &4222657246138328811
 GameObject:
   m_ObjectHideFlags: 0

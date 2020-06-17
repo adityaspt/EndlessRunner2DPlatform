@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5308995854706079921}
   - component: {fileID: 5308995854706079920}
   - component: {fileID: 5308995854706079927}
+  - component: {fileID: 6881050695521144858}
   m_Layer: 8
   m_Name: Platformx5
   m_TagString: Platform
@@ -76,6 +77,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   platformDestroyPoint: {fileID: 0}
+--- !u!210 &6881050695521144858
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5308995854706079922}
+  m_Enabled: 1
+  m_SortingLayerID: 153898399
+  m_SortingLayer: 1
+  m_SortingOrder: 0
 --- !u!1 &5308995854963537796
 GameObject:
   m_ObjectHideFlags: 0
