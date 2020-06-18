@@ -28,6 +28,7 @@ public class PauseMenu : MonoBehaviour
     
     public void PauseGame()
     {
+
         pauseScreen.gameObject.SetActive(true);
         Time.timeScale = 0f;
     }

@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     public PlatformDestroy[] platfromList;
     private ScoreManager scoremanager;
     public DeathMenu deathscreen;
+   
    // public PauseMenu pauseScreen;
     // Start is called before the first frame update
     void Start()
@@ -24,15 +25,25 @@ public class GameManager : MonoBehaviour
         playerStartPoint = thePlayer.transform.position;
         emptyObjstartPoint = emptyObj.transform.position;
         scoremanager = FindObjectOfType<ScoreManager>();
+        
     }
     public void RestartGame()
     {
         thePlayer.gameObject.SetActive(false);
         deathscreen.gameObject.SetActive(true);
+        PowerUpManager.instance.powerUpLengthCounter = 0f;
+        if (PowerUpManager.instance.textImmune.gameObject.activeSelf)
+            PowerUpManager.instance.textImmune.gameObject.SetActive(false);
        // StartCoroutine("restartGameCall");
     }
     public void ResetGamePlay()
     {
+
+        PowerUpManager.instance.powerUpLengthCounter = 0f;
+        if (PowerUpManager.instance.textImmune.gameObject.activeSelf)
+            PowerUpManager.instance.textImmune.gameObject.SetActive(false);
+
+
         deathscreen.gameObject.SetActive(false);
         platfromList = FindObjectsOfType<PlatformDestroy>();
         for (int i = 0; i < platfromList.Length; i++)

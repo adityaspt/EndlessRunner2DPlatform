@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlatfromGenerator : MonoBehaviour
 {
-    public GameObject platformPrefab;
+   // public GameObject platformPrefab;
     //public GameObject[] platformPrefabsArray;
     private int platformSelector;
     public float[] PlatformWidthsArray;
@@ -27,20 +27,32 @@ public class PlatfromGenerator : MonoBehaviour
     private float DistanceBetweenMax = 6f;
     private float PlatformWidth;
     public ObjectPooler[] objectpools;
+    
+    //Coin Pool
     public float randomCointhreshold;
     private CoinGenerator coinGen;
-    float test;
-    //Spikes
 
+
+    //Spikes Pool
+    float temp;
     public float randomSpikesThreshold;
     public ObjectPooler spikePool;
     private bool SpikePlaced = false;
+
+    //Enemy Pool
+    public float enemySpawnThreshold;
+    public ObjectPooler enemySpawnPool;
+    public bool enemyPlaced=false;
+
+
     // Start is called before the first frame update
     public ObjectPooler powerUpPool;
     public float powerUpThreshold;
     public float powerUpHeight;
     void Start()
     {
+        enemyPlaced = false;
+        SpikePlaced = false;
         coinGen = FindObjectOfType<CoinGenerator>();
         minHeight = transform.position.y;
         maxHeight = maxHeightPoint.transform.position.y;
@@ -88,30 +100,47 @@ public class PlatfromGenerator : MonoBehaviour
             newPlatform.transform.position = transform.position;
             newPlatform.transform.rotation = transform.rotation;
             newPlatform.SetActive(true);
-            test = Convert.ToInt32(UnityEngine.Random.Range(0f, 100f));
-            if (test < randomSpikesThreshold )
+            if (!SpikePlaced || enemyPlaced )
             {
-                GameObject newSpike = spikePool.GetPooledObjects();
-               float spikeXPos = UnityEngine.Random.Range((-PlatformWidthsArray[platformSelector] / 2f) + 2.5f, (PlatformWidthsArray[platformSelector] / 2f) - 1f);
-                //float spikeXPos = UnityEngine.Random.Range(-PlatformWidthsArray[platformSelector] / 2, PlatformWidthsArray[platformSelector] / 2);
-                Vector3 spikePos = new Vector3(spikeXPos, 0.75f, 0f);
-                newSpike.transform.position = transform.position + spikePos;
-                newSpike.transform.rotation = transform.rotation;
-                newSpike.SetActive(true);
-                SpikePlaced = true;
+                temp = Convert.ToInt32(UnityEngine.Random.Range(0f, 100f));
+                enemySpawnThreshold = 100 - temp;
+
+                if (temp < randomSpikesThreshold)
+                {
+                    SpikePlaced = true;
+                    enemyPlaced = false;
+                    GameObject newSpike = spikePool.GetPooledObjects();
+                    float spikeXPos = UnityEngine.Random.Range((-PlatformWidthsArray[platformSelector] / 2f) + 2.5f, (PlatformWidthsArray[platformSelector] / 2f) - 1f);
+                    //float spikeXPos = UnityEngine.Random.Range(-PlatformWidthsArray[platformSelector] / 2, PlatformWidthsArray[platformSelector] / 2);
+                    Vector3 spikePos = new Vector3(spikeXPos, 0.75f, 0f);
+                    newSpike.transform.position = transform.position + spikePos;
+                    newSpike.transform.rotation = transform.rotation;
+                    newSpike.SetActive(true);
+
+                }
+            }
+            else if(SpikePlaced || !enemyPlaced)
+            {
+                GameObject newEnemy = enemySpawnPool.GetPooledObjects();
+                Vector3 enemySpawnPos = new Vector3((PlatformWidthsArray[platformSelector] / 2f), 0.75f, transform.position.z);
+                newEnemy.transform.position = transform.position + enemySpawnPos;
+                newEnemy.transform.rotation = transform.rotation;
+                newEnemy.SetActive(true);
+                enemyPlaced = true;
+                SpikePlaced = false;
 
             }
-           
-            if (Convert.ToInt32(UnityEngine.Random.Range(0f, 100f)) < randomCointhreshold )
-           // if(100f-test<randomCointhreshold)
-            {
-                //if (SpikePlaced)
-                //{
-                    coinGen.SpawnCoins(new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z));
-                    SpikePlaced = false;
-                //}
+         //  //Coin gen script
+           // if (Convert.ToInt32(UnityEngine.Random.Range(0f, 100f)) < randomCointhreshold )
+           //// if(100f-test<randomCointhreshold)
+           // {
+           //     //if (SpikePlaced)
+           //     //{
+           //         coinGen.SpawnCoins(new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z));
+           //         SpikePlaced = false;
+           //     //}
                 
-            }
+           // }
             
             transform.position = new Vector3(transform.position.x + (PlatformWidthsArray[platformSelector] / 2), transform.position.y, transform.position.z);
 

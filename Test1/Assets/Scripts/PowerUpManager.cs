@@ -7,16 +7,18 @@ using System;
 
 public class PowerUpManager : MonoBehaviour
 {
+    public static PowerUpManager instance;
     //private bool doublecoin;
     private bool safeMode;
     private bool powerUpActive = false;
-    private float powerUpLengthCounter;
+    public float powerUpLengthCounter;
     public TextMeshProUGUI textImmune;
     GameObject[] arr;
     // Start is called before the first frame update
     void Start()
     {
-
+        instance = this;
+        powerUpLengthCounter = 0;
     }
 
     // Update is called once per frame
@@ -56,8 +58,10 @@ public class PowerUpManager : MonoBehaviour
         foreach (GameObject item in arr)
         {
             if (item.name == "TestGround")
-                item.GetComponent<BoxCollider2D>().isTrigger = false;
-            
+            {
+                item.GetComponent<BoxCollider2D>().isTrigger = true;
+                continue;
+            }
             else
                 item.GetComponent<BoxCollider2D>().isTrigger = false;
             item.gameObject.tag = "Untagged";
