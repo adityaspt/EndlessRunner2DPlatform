@@ -103,7 +103,7 @@ public class PlatfromGenerator : MonoBehaviour
             if (!SpikePlaced || enemyPlaced )
             {
                 temp = Convert.ToInt32(UnityEngine.Random.Range(0f, 100f));
-                enemySpawnThreshold = 100 - temp;
+               // enemySpawnThreshold = 100 - temp;
 
                 if (temp < randomSpikesThreshold)
                 {
@@ -122,7 +122,7 @@ public class PlatfromGenerator : MonoBehaviour
             else if(SpikePlaced || !enemyPlaced)
             {
                 GameObject newEnemy = enemySpawnPool.GetPooledObjects();
-                Vector3 enemySpawnPos = new Vector3((PlatformWidthsArray[platformSelector] / 2f), 0.75f, transform.position.z);
+                Vector3 enemySpawnPos = new Vector3((PlatformWidthsArray[platformSelector] ), 0.75f, transform.position.z);
                 newEnemy.transform.position = transform.position + enemySpawnPos;
                 newEnemy.transform.rotation = transform.rotation;
                 newEnemy.SetActive(true);
@@ -130,18 +130,18 @@ public class PlatfromGenerator : MonoBehaviour
                 SpikePlaced = false;
 
             }
-         //  //Coin gen script
-           // if (Convert.ToInt32(UnityEngine.Random.Range(0f, 100f)) < randomCointhreshold )
-           //// if(100f-test<randomCointhreshold)
-           // {
-           //     //if (SpikePlaced)
-           //     //{
-           //         coinGen.SpawnCoins(new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z));
-           //         SpikePlaced = false;
-           //     //}
-                
-           // }
-            
+            //Coin gen script
+            if (Convert.ToInt32(UnityEngine.Random.Range(0f, 100f)) < randomCointhreshold)
+            // if(100f-test<randomCointhreshold)
+            {
+                //if (SpikePlaced)
+                //{
+                coinGen.SpawnCoins(new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z));
+                SpikePlaced = false;
+                //}
+
+            }
+
             transform.position = new Vector3(transform.position.x + (PlatformWidthsArray[platformSelector] / 2), transform.position.y, transform.position.z);
 
         }

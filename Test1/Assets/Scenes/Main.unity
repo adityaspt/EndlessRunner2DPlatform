@@ -306,7 +306,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 22248797}
-  - component: {fileID: 22248796}
   - component: {fileID: 22248798}
   m_Layer: 0
   m_Name: GM
@@ -315,20 +314,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &22248796
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 22248795}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79457e40b86c0f44a929d3a592bdf741, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  EnemyPrefab: {fileID: 7028714882735823028, guid: 3766c1a2e13dddc4f99ba36ae5e0bbd4,
-    type: 3}
 --- !u!4 &22248797
 Transform:
   m_ObjectHideFlags: 0
@@ -3392,7 +3377,7 @@ GameObject:
   - component: {fileID: 959649044}
   m_Layer: 8
   m_Name: Platformx7
-  m_TagString: Platform
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5171,7 +5156,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -94, y: -15}
+  m_AnchoredPosition: {x: -94, y: -5}
   m_SizeDelta: {x: 195.84, y: 37.51}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &1271514928
@@ -6323,7 +6308,7 @@ GameObject:
   - component: {fileID: 1505626484}
   m_Layer: 8
   m_Name: Platformx7 (1)
-  m_TagString: Platform
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6665,7 +6650,7 @@ MonoBehaviour:
   enemySpawnPool: {fileID: 1198659585}
   enemyPlaced: 0
   powerUpPool: {fileID: 570812580}
-  powerUpThreshold: 75
+  powerUpThreshold: 20
   powerUpHeight: 3.75
 --- !u!4 &1566287278
 Transform:

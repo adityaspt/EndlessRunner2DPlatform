@@ -53,6 +53,11 @@ public class GameManager : MonoBehaviour
         scoremanager.scoreCount = 0;
 
         thePlayer.transform.position = playerStartPoint;
+        GameObject[] gobjs=GameObject.FindGameObjectsWithTag("Platform");
+        foreach(GameObject g in gobjs)
+        {
+            Destroy(g);
+        }
         platformGenerator.position = platformStartPoint;
         emptyObj.transform.position = emptyObjstartPoint;
         thePlayer.gameObject.SetActive(true);
