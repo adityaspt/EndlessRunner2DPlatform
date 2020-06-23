@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3382998139237782388}
   - component: {fileID: 3382998139237782386}
   - component: {fileID: 3382998139237782385}
+  - component: {fileID: 807311348928720985}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Kill
@@ -125,6 +126,19 @@ MonoBehaviour:
   speed: 1
   groundDetection: {fileID: 3382998139773994522}
   distance: 2
+--- !u!114 &807311348928720985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3382998139237782389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89b835db77c42324cbf741312ab994a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  platformDestroyPoint: {fileID: 0}
 --- !u!1 &3382998139773994523
 GameObject:
   m_ObjectHideFlags: 0

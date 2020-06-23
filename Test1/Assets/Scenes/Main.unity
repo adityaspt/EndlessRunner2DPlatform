@@ -5794,7 +5794,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78ee6439a247b624f8fdf5f2a15e2f16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
+  speed: 1.5
   speedStore: 0
   speedMilestoneTargetStore: 0
   speedMilestoneTarget: 25
@@ -6630,14 +6630,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlatformWidthsArray: []
+  movingPlatformThreshold: 75
   minHeight: 0
   maxHeight: 0
   maxHeightPoint: {fileID: 68803794}
-  maxHeightChange: 2
+  maxHeightChange: 2.5
   heightChange: 0
   GenerationPoint: {fileID: 291825981}
   DistanceBetweenMin: 1
-  DistanceBetweenMax: 3
+  DistanceBetweenMax: 2.5
   objectpools:
   - {fileID: 254900190}
   - {fileID: 1436702035}
@@ -6646,7 +6647,7 @@ MonoBehaviour:
   randomCointhreshold: 75
   randomSpikesThreshold: 100
   spikePool: {fileID: 1693072951}
-  enemySpawnThreshold: 100
+  enemySpawnThreshold: 75
   enemySpawnPool: {fileID: 1198659585}
   enemyPlaced: 0
   powerUpPool: {fileID: 570812580}
@@ -6958,7 +6959,7 @@ GameObject:
   - component: {fileID: 1602164192}
   m_Layer: 8
   m_Name: TestGround
-  m_TagString: Kill
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6987,7 +6988,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}

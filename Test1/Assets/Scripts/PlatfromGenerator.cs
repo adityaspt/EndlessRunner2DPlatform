@@ -5,10 +5,11 @@ using UnityEngine;
 
 public class PlatfromGenerator : MonoBehaviour
 {
-   // public GameObject platformPrefab;
-    //public GameObject[] platformPrefabsArray;
     private int platformSelector;
     public float[] PlatformWidthsArray;
+
+    //Platformer Mover
+    public float movingPlatformThreshold;
 
     // Randomize Height
     public float minHeight;
@@ -19,15 +20,15 @@ public class PlatfromGenerator : MonoBehaviour
     //
 
     public Transform GenerationPoint;
-    
-    private float DistanceBetween=3.8f;
+
+    private float DistanceBetween = 3.8f;
     [SerializeField]
     private float DistanceBetweenMin = 2f;
     [SerializeField]
     private float DistanceBetweenMax = 6f;
     private float PlatformWidth;
     public ObjectPooler[] objectpools;
-    
+
     //Coin Pool
     public float randomCointhreshold;
     private CoinGenerator coinGen;
@@ -42,7 +43,7 @@ public class PlatfromGenerator : MonoBehaviour
     //Enemy Pool
     public float enemySpawnThreshold;
     public ObjectPooler enemySpawnPool;
-    public bool enemyPlaced=false;
+    public bool enemyPlaced = false;
 
 
     // Start is called before the first frame update
@@ -57,24 +58,23 @@ public class PlatfromGenerator : MonoBehaviour
         minHeight = transform.position.y;
         maxHeight = maxHeightPoint.transform.position.y;
         PlatformWidthsArray = new float[objectpools.Length];
-        //PlatformWidth = platformPrefab.GetComponent<BoxCollider2D>().size.x;
-        for(int i=0;i< objectpools.Length;i++)
+        for (int i = 0; i < objectpools.Length; i++)
         {
-            PlatformWidthsArray[i]= objectpools[i].pooledObject.GetComponent<BoxCollider2D>().size.x;
+            PlatformWidthsArray[i] = objectpools[i].pooledObject.GetComponent<BoxCollider2D>().size.x;
         }
     }
-
-    // Update is called once per frame
     void Update()
     {
 
-        if(transform.position.x<GenerationPoint.position.x)
+        if (transform.position.x < GenerationPoint.position.x)
         {
+
+            //Platform spawner
             platformSelector = UnityEngine.Random.Range(0, objectpools.Length);
             DistanceBetween = Convert.ToInt32(UnityEngine.Random.Range(DistanceBetweenMin, DistanceBetweenMax));
             heightChange = transform.position.y + Convert.ToInt32(UnityEngine.Random.Range(maxHeightChange, -maxHeightChange));
-            
-            if(heightChange>maxHeight)
+
+            if (heightChange > maxHeight)
             {
                 heightChange = maxHeight;
             }
@@ -82,66 +82,86 @@ public class PlatfromGenerator : MonoBehaviour
             {
                 heightChange = minHeight;
             }
-            transform.position = new Vector3(transform.position.x + DistanceBetween + (PlatformWidthsArray[platformSelector]/2), heightChange, transform.position.z);
+            transform.position = new Vector3(transform.position.x + DistanceBetween + (PlatformWidthsArray[platformSelector] / 2), heightChange, transform.position.z);
 
-            //Instantiate(platformPrefabsArray[platformSelector],transform.position,transform.rotation);
+            float temp1 = Convert.ToInt32(UnityEngine.Random.Range(0f, 100f));
 
-            if(UnityEngine.Random.Range(0,100f)<powerUpThreshold)
-            {
-                GameObject newPowerUp = powerUpPool.GetPooledObjects();
-                
-                newPowerUp.transform.position = transform.position + new Vector3(DistanceBetween / 2,UnityEngine.Random.Range(powerUpHeight/2, powerUpHeight), 0f);
-                newPowerUp.SetActive(true);
-            }
 
 
             GameObject newPlatform = objectpools[platformSelector].GetPooledObjects();
-
             newPlatform.transform.position = transform.position;
             newPlatform.transform.rotation = transform.rotation;
-            newPlatform.SetActive(true);
-            if (!SpikePlaced || enemyPlaced )
+            if (temp1 < movingPlatformThreshold)
             {
-                temp = Convert.ToInt32(UnityEngine.Random.Range(0f, 100f));
-               // enemySpawnThreshold = 100 - temp;
-
-                if (temp < randomSpikesThreshold)
+                if (!newPlatform.GetComponent<PlatformMovement>())
                 {
-                    SpikePlaced = true;
-                    enemyPlaced = false;
+                    Destroy(newPlatform.GetComponent<PlatformMovement>());
+                    newPlatform.AddComponent<PlatformMovement>();
+                
+                }
+            }
+            newPlatform.SetActive(true);
+            //
+
+            #region EnemyObjectsSpawn
+
+
+
+            temp = Convert.ToInt32(UnityEngine.Random.Range(0f, 100f));
+
+
+            if (temp < randomSpikesThreshold)
+            {
+                int tempEnemySelect = UnityEngine.Random.Range(1, 3);
+                if (tempEnemySelect == 1)
+                {
                     GameObject newSpike = spikePool.GetPooledObjects();
-                    float spikeXPos = UnityEngine.Random.Range((-PlatformWidthsArray[platformSelector] / 2f) + 2.5f, (PlatformWidthsArray[platformSelector] / 2f) - 1f);
-                    //float spikeXPos = UnityEngine.Random.Range(-PlatformWidthsArray[platformSelector] / 2, PlatformWidthsArray[platformSelector] / 2);
+                    float spikeXPos = UnityEngine.Random.Range((-PlatformWidthsArray[platformSelector] / 2f) + 2.5f, (PlatformWidthsArray[platformSelector] / 2f) - 1.5f);
                     Vector3 spikePos = new Vector3(spikeXPos, 0.75f, 0f);
                     newSpike.transform.position = transform.position + spikePos;
                     newSpike.transform.rotation = transform.rotation;
                     newSpike.SetActive(true);
+                }
+                else
+                {
+                    GameObject newEnemy = enemySpawnPool.GetPooledObjects();
+
+                    float enemySpawnXPos = UnityEngine.Random.Range((-PlatformWidthsArray[platformSelector] / 2f) + 2.5f, (PlatformWidthsArray[platformSelector] / 2f) - 1f);
+                    Vector3 enemySpawnPos = new Vector3(enemySpawnXPos, 0.75f, 0f);
+                    newEnemy.transform.position = transform.position + enemySpawnPos;
+                    newEnemy.transform.rotation = transform.rotation;
+                    newEnemy.SetActive(true);
 
                 }
             }
-            else if(SpikePlaced || !enemyPlaced)
-            {
-                GameObject newEnemy = enemySpawnPool.GetPooledObjects();
-                Vector3 enemySpawnPos = new Vector3((PlatformWidthsArray[platformSelector] ), 0.75f, transform.position.z);
-                newEnemy.transform.position = transform.position + enemySpawnPos;
-                newEnemy.transform.rotation = transform.rotation;
-                newEnemy.SetActive(true);
-                enemyPlaced = true;
-                SpikePlaced = false;
 
-            }
+
+
+
+            #endregion
+
             //Coin gen script
             if (Convert.ToInt32(UnityEngine.Random.Range(0f, 100f)) < randomCointhreshold)
-            // if(100f-test<randomCointhreshold)
             {
-                //if (SpikePlaced)
-                //{
                 coinGen.SpawnCoins(new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z));
                 SpikePlaced = false;
-                //}
 
             }
+            //
 
+
+            //Sheild Spawner
+            if (UnityEngine.Random.Range(0, 100f) < powerUpThreshold)
+            {
+                GameObject newPowerUp = powerUpPool.GetPooledObjects();
+
+                newPowerUp.transform.position = transform.position + new Vector3(DistanceBetween / 2, UnityEngine.Random.Range(powerUpHeight / 2, powerUpHeight), 0f);
+                newPowerUp.SetActive(true);
+            }
+            //
+
+
+            //Push the generator ahead by x axis
             transform.position = new Vector3(transform.position.x + (PlatformWidthsArray[platformSelector] / 2), transform.position.y, transform.position.z);
 
         }
