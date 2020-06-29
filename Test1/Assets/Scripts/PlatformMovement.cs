@@ -15,7 +15,12 @@ public class PlatformMovement : MonoBehaviour
     [SerializeField]
     private Vector3 MinPos;
     private Vector3 nextPos;
+    public PlatformMovement instance;
 
+    private void Awake()
+    {
+        instance = this;    
+    }
     // Start is called before the first frame update
     void Start()
     {

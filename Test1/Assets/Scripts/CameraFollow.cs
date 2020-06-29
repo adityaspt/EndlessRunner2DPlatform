@@ -6,22 +6,22 @@ public class CameraFollow : MonoBehaviour
 {
     // Start is called before the first frame update
     
-    public Transform Player;
-    private Vector3 LastPosPlayer;
+    public Transform SpeedMultiplier;
+    private Vector3 LastPosSpeedMultiplier;
     private float DistanceToMove;
     void Start()
     {
-        LastPosPlayer = Player.transform.position;
+        LastPosSpeedMultiplier = SpeedMultiplier.transform.position;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        DistanceToMove = Player.position.x - LastPosPlayer.x;
+        DistanceToMove = SpeedMultiplier.position.x - LastPosSpeedMultiplier.x;
 
         transform.position = new Vector3(transform.position.x + DistanceToMove, transform.position.y, transform.position.z);
 
-        LastPosPlayer = Player.position;
+        LastPosSpeedMultiplier = SpeedMultiplier.position;
 
         // transform.position = new Vector3(MoveSquare.mainInstance.speed+transform.position.x, transform.position.y, transform.position.z);
 

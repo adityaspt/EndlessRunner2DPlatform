@@ -1894,7 +1894,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e415fb00893d4ad4286e4d8ddf10f1d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 1388909948}
+  SpeedMultiplier: {fileID: 1388909948}
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -6630,7 +6630,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlatformWidthsArray: []
-  movingPlatformThreshold: 75
+  movingPlatformThreshold: -1
   minHeight: 0
   maxHeight: 0
   maxHeightPoint: {fileID: 68803794}
@@ -7655,7 +7655,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 1.75
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -7768,8 +7768,8 @@ MonoBehaviour:
   jumpSound: {fileID: 1260145536}
   deathSound: {fileID: 1687557554}
   isFacingRight: 1
-  speed: 5
-  JumpPower: 240
+  speed: 4
+  JumpPower: 7.5
   Grounded: 1
   groundLayer:
     serializedVersion: 2

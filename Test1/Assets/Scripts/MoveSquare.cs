@@ -209,8 +209,8 @@ public class MoveSquare : MonoBehaviour
 
     public void Jump(float power)
     {
-
-        rb2D.AddForce(transform.up * power);
+        rb2D.velocity = Vector2.up * power;
+        //rb2D.AddForce(transform.up * power);
         JumpCount++;
         isJumped = true;
 
