@@ -14,6 +14,7 @@ public class PowerUpManager : MonoBehaviour
     public float powerUpLengthCounter;
     public TextMeshProUGUI textImmune;
     GameObject[] arr;
+    string[] KillTags = { "Kill", "Enemy" };
     // Start is called before the first frame update
     void Start()
     {
@@ -34,14 +35,33 @@ public class PowerUpManager : MonoBehaviour
                 textImmune.gameObject.SetActive(false);
                 //GameObject[] arr;
                 //arr = GameObject.FindGameObjectsWithTag("Kill");
+
+                arr = GameObject.FindGameObjectsWithTag("NoDamage");
                 foreach (GameObject item in arr)
                 {
-                    item.gameObject.tag = "Kill";
+
+
                     if (item.name == "TestGround")
                         item.GetComponent<BoxCollider2D>().isTrigger = true;
 
                     else
+                    {
+                        if (item.gameObject.name.Contains("Spikes"))
+                        {
+                            print("Deactivate power spike");
+                            item.gameObject.tag = "Kill";
+                            
+                        }
+                        if (item.gameObject.name.Contains("Enemy"))
+                        {
+                            print("Deactivate power Enemmy");
+                            item.gameObject.tag = "Enemy";
+                           
+                        }
                         item.GetComponent<BoxCollider2D>().isTrigger = true;
+
+
+                    }
 
                 }
                 powerUpActive = false;
@@ -53,19 +73,23 @@ public class PowerUpManager : MonoBehaviour
         //doubleCoin = doublecoin;
         safeMode = safe;
         powerUpLengthCounter = time;
-        
-        arr = GameObject.FindGameObjectsWithTag("Kill");
-        foreach (GameObject item in arr)
-        {
-            if (item.name == "TestGround")
-            {
-                item.GetComponent<BoxCollider2D>().isTrigger = true;
-                continue;
-            }
-            else
-                item.GetComponent<BoxCollider2D>().isTrigger = false;
-            item.gameObject.tag = "Untagged";
 
+        for (int i = 0; i < KillTags.Length; i++)
+        {
+            arr = GameObject.FindGameObjectsWithTag(KillTags[i]);
+            foreach (GameObject item in arr)
+            {
+                if (item.name == "TestGround")
+                {
+                    item.GetComponent<BoxCollider2D>().isTrigger = true;
+                    continue;
+                }
+                else
+                {
+                    item.GetComponent<BoxCollider2D>().isTrigger = false;
+                    item.gameObject.tag = "NoDamage";
+                }
+            }
         }
         textImmune.gameObject.SetActive(true);
         powerUpActive = true;

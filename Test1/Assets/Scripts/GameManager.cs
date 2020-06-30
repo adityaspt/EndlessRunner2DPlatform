@@ -38,6 +38,8 @@ public class GameManager : MonoBehaviour
     }
     public void ResetGamePlay()
     {
+        platformGenerator.position = platformStartPoint;
+        emptyObj.transform.position = emptyObjstartPoint;
 
         PowerUpManager.instance.powerUpLengthCounter = 0f;
         if (PowerUpManager.instance.textImmune.gameObject.activeSelf)
@@ -45,6 +47,13 @@ public class GameManager : MonoBehaviour
 
 
         deathscreen.gameObject.SetActive(false);
+        GameObject[] gobjs = GameObject.FindGameObjectsWithTag("Platform");
+
+        foreach (GameObject g in gobjs)
+        {
+           // Destroy(g);
+            g.SetActive(false);
+        }
         platfromList = FindObjectsOfType<PlatformDestroy>();
         for (int i = 0; i < platfromList.Length; i++)
         {
@@ -53,13 +62,7 @@ public class GameManager : MonoBehaviour
         scoremanager.scoreCount = 0;
 
         thePlayer.transform.position = playerStartPoint;
-        GameObject[] gobjs=GameObject.FindGameObjectsWithTag("Platform");
-        foreach(GameObject g in gobjs)
-        {
-            Destroy(g);
-        }
-        platformGenerator.position = platformStartPoint;
-        emptyObj.transform.position = emptyObjstartPoint;
+       
         thePlayer.gameObject.SetActive(true);
         EmptyObjMove.emptyObjInstance.speed = EmptyObjMove.emptyObjInstance.speedStore;
         EmptyObjMove.emptyObjInstance.speedMilestoneTarget = EmptyObjMove.emptyObjInstance.speedMilestoneTargetStore;

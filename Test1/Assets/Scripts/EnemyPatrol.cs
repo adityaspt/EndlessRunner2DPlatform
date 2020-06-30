@@ -8,10 +8,11 @@ public class EnemyPatrol : MonoBehaviour
     private bool movingRight = true;
     public Transform groundDetection;
     public float distance ;
+    public  float health = 100f;
     // Start is called before the first frame update
     void Start()
     {
-        
+        health = 100f;
     }
 
     // Update is called once per frame
@@ -32,6 +33,20 @@ public class EnemyPatrol : MonoBehaviour
                 movingRight = true;
 
             }
+        }
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Bullet"))
+        {
+            Destroy(collision.gameObject);
+            if (health > 1f)
+            {
+                health -= 30f;
+            }
+            else
+            gameObject.SetActive(false);
+
         }
     }
 }

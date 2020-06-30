@@ -41,7 +41,7 @@ public class PlatfromGenerator : MonoBehaviour
     private bool SpikePlaced = false;
 
     //Enemy Pool
-    public float enemySpawnThreshold;
+     float enemySpawnThreshold;
     public ObjectPooler enemySpawnPool;
     public bool enemyPlaced = false;
 

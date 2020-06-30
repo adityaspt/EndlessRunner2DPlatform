@@ -6644,10 +6644,9 @@ MonoBehaviour:
   - {fileID: 1436702035}
   - {fileID: 1642754714}
   - {fileID: 977786756}
-  randomCointhreshold: 75
+  randomCointhreshold: 50
   randomSpikesThreshold: 100
   spikePool: {fileID: 1693072951}
-  enemySpawnThreshold: 75
   enemySpawnPool: {fileID: 1198659585}
   enemyPlaced: 0
   powerUpPool: {fileID: 570812580}
@@ -7765,6 +7764,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca6390b740e4f9143a3bfae54a280688, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bullet: {fileID: 5810796363888884160, guid: 5d1510c8726bd3940a6fcf3d293748c4, type: 3}
+  fireRate: 0.15
   jumpSound: {fileID: 1260145536}
   deathSound: {fileID: 1687557554}
   isFacingRight: 1
@@ -7778,7 +7779,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   GroundCheck: {fileID: 715125977}
-  groundcheckRadius: 0.1
+  groundcheckRadius: 0.15
 --- !u!95 &1687235575
 Animator:
   serializedVersion: 3

@@ -4,6 +4,17 @@ using UnityEngine;
 
 public class MoveSquare : MonoBehaviour
 {
+
+    public GameObject bullet;
+    Vector2 BulletPos;
+    public float fireRate = 0.5f;
+    float nextFire = 0.0f;
+
+
+
+
+
+
     //Audio
     public AudioSource jumpSound;
     public AudioSource deathSound;
@@ -101,10 +112,34 @@ public class MoveSquare : MonoBehaviour
         else
             anim.SetBool("Grounded", false);
 
-
+        if (Input.GetMouseButtonDown(1) && Time.time>nextFire)
+        {
+            nextFire = Time.time + fireRate;
+            shootBullet();
+        }
 
 
     }
+
+    void shootBullet()
+    {
+        BulletPos = transform.position;
+        if (isFacingRight)
+        {
+            BulletPos += new Vector2(+0.5f, 0.35f);
+            bullet.GetComponent<BulletScript>().velocityX = 5f;
+            Instantiate(bullet, BulletPos, Quaternion.identity);
+                    
+        }
+        else
+        {
+            BulletPos += new Vector2(-0.5f, 0.35f);
+            bullet.GetComponent<BulletScript>().velocityX = -5f;
+            Instantiate(bullet, BulletPos, Quaternion.identity);
+
+        }
+    }
+
 
     public void JumpDeviceButton()
     {
@@ -122,7 +157,7 @@ public class MoveSquare : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
 
-        if (collision.CompareTag("Kill"))
+        if (collision.CompareTag("Kill") || collision.CompareTag("Enemy"))
         {
             deathSound.Play();
             GameManager.gameManagerInstance.RestartGame();
