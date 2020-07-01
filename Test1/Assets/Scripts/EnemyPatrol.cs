@@ -45,8 +45,10 @@ public class EnemyPatrol : MonoBehaviour
                 health -= 30f;
             }
             else
-            gameObject.SetActive(false);
-
+            {
+                gameObject.SetActive(false);
+                health = 100f;
+            }
         }
     }
 }

@@ -18,10 +18,10 @@ public class DeathMenu : MonoBehaviour
     }
     void Start()
     {
-        if (GameObject.Find("PauseB").activeSelf)
-        {
-            GameObject.Find("PauseB").SetActive(false);
-        }
+        //if (GameObject.Find("PauseB").activeSelf)
+        //{
+        //    GameObject.Find("PauseB").SetActive(false);
+        //}
     }
 
     // Update is called once per frame

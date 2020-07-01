@@ -9,7 +9,7 @@ public class MoveSquare : MonoBehaviour
     Vector2 BulletPos;
     public float fireRate = 0.5f;
     float nextFire = 0.0f;
-
+    public bool pressedFire = false;
 
 
 
@@ -111,12 +111,19 @@ public class MoveSquare : MonoBehaviour
         }
         else
             anim.SetBool("Grounded", false);
-
+#if UNITY_ANDROID && !UNITY_EDITOR
+        if(pressedFire &&   Time.time>nextFire)
+#endif
+#if UNITY_EDITOR
         if (Input.GetMouseButtonDown(1) && Time.time>nextFire)
+#endif
+
         {
             nextFire = Time.time + fireRate;
             shootBullet();
+            pressedFire = false;
         }
+
 
 
     }
@@ -146,6 +153,11 @@ public class MoveSquare : MonoBehaviour
         jumpDevice = true;
 
     }
+    public void FireBulletDeviceButton()
+    {
+        pressedFire = true;
+
+    }
 
 
     public void StartMoving(float horizontalInput)
@@ -157,7 +169,7 @@ public class MoveSquare : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
 
-        if (collision.CompareTag("Kill") || collision.CompareTag("Enemy"))
+        if (collision.CompareTag("Kill") || collision.CompareTag("Enemy") || collision.CompareTag("FireKill"))
         {
             deathSound.Play();
             GameManager.gameManagerInstance.RestartGame();

@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - Bullet
   - NoDamage
+  - FireKill
   layers:
   - Default
   - TransparentFX
