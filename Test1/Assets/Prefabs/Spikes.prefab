@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1115228524993560507}
   - component: {fileID: 2273717039943081940}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Spike_Up
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,8 +93,8 @@ GameObject:
   - component: {fileID: 2697500747655765652}
   - component: {fileID: 4887707983305541794}
   - component: {fileID: -327296774390892952}
-  m_Layer: 8
-  m_Name: GameObject
+  m_Layer: 0
+  m_Name: Spikes
   m_TagString: Kill
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -177,7 +177,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9069550286614495870}
   - component: {fileID: 1692333770044450338}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Spike_Up (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -258,7 +258,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7737338487433458596}
   - component: {fileID: 7153862298705743029}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Spike_Up (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

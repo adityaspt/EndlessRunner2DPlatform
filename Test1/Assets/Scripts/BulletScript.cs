@@ -19,4 +19,14 @@ public class BulletScript : MonoBehaviour
         rb2.velocity = new Vector2(velocityX, velocityY);
         Destroy(gameObject, 2f);
     }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (!collision.gameObject.CompareTag("Enemy") || !collision.gameObject.CompareTag("Player") || !collision.gameObject.CompareTag("Bullet"))
+        {
+            Destroy(gameObject);
+
+        }
+        
+    }
+
 }

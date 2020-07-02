@@ -46,9 +46,11 @@ public class EnemyPatrol : MonoBehaviour
             }
             else
             {
+                ScoreManager.instance.AddScore(100);
                 gameObject.SetActive(false);
                 health = 100f;
             }
         }
+       
     }
 }

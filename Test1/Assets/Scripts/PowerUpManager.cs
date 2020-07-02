@@ -7,8 +7,10 @@ using System;
 
 public class PowerUpManager : MonoBehaviour
 {
+    public GameObject PlayerSprite;
     public static PowerUpManager instance;
     //private bool doublecoin;
+    bool PlayerTransparent = false;
     private bool safeMode;
     private bool powerUpActive = false;
     public float powerUpLengthCounter;
@@ -25,14 +27,18 @@ public class PowerUpManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         if (powerUpActive)
         {
-            powerUpLengthCounter -= Time.deltaTime;
-            textImmune.text = "Immunity for " + Convert.ToInt32(powerUpLengthCounter) + " seconds";
 
+
+            powerUpLengthCounter -= Time.deltaTime;
+            textImmune.text = "Shield for " + Convert.ToInt32(powerUpLengthCounter) + " seconds";
+            StartCoroutine(FadeCanvasGroup());
             if (powerUpLengthCounter <= 0)
             {
                 textImmune.gameObject.SetActive(false);
+
                 //GameObject[] arr;
                 //arr = GameObject.FindGameObjectsWithTag("Kill");
 
@@ -50,13 +56,13 @@ public class PowerUpManager : MonoBehaviour
                         {
                             print("Deactivate power spike");
                             item.gameObject.tag = "Kill";
-                            
+
                         }
                         if (item.gameObject.name.Contains("Enemy"))
                         {
                             print("Deactivate power Enemmy");
                             item.gameObject.tag = "Enemy";
-                           
+
                         }
                         item.GetComponent<BoxCollider2D>().isTrigger = true;
 
@@ -64,12 +70,44 @@ public class PowerUpManager : MonoBehaviour
                     }
 
                 }
+
                 powerUpActive = false;
             }
         }
+        else
+        {
+            if (!PlayerTransparent)
+            {
+                Color PlayerColor = new Color(255, 255, 255, 255);
+                PlayerSprite.GetComponent<SpriteRenderer>().color = PlayerColor;
+            }
+        }
     }
+    public IEnumerator FadeCanvasGroup()
+    {
+
+        Color PlayerColor;
+        if (PlayerTransparent)
+        {
+            PlayerColor = new Color(255, 255, 255, 0);
+            PlayerTransparent = false;
+        }
+        else
+        {
+
+            PlayerColor = new Color(255, 255, 255, 255);
+            PlayerTransparent = true;
+        }
+        PlayerSprite.GetComponent<SpriteRenderer>().color = PlayerColor;
+
+        yield return new WaitForSeconds(0.75f);
+        //PlayerTransparent = !PlayerTransparent;
+       
+         }
+   
     public void ActivatePowerUp(bool safe, float time)
     {
+
         //doubleCoin = doublecoin;
         safeMode = safe;
         powerUpLengthCounter = time;

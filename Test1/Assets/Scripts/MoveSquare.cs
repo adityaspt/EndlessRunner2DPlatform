@@ -7,7 +7,7 @@ public class MoveSquare : MonoBehaviour
 
     public GameObject bullet;
     Vector2 BulletPos;
-    public float fireRate = 0.5f;
+    public float fireRate = 10f;
     float nextFire = 0.0f;
     public bool pressedFire = false;
 
@@ -133,17 +133,17 @@ public class MoveSquare : MonoBehaviour
         BulletPos = transform.position;
         if (isFacingRight)
         {
-            BulletPos += new Vector2(+0.5f, 0.35f);
-            bullet.GetComponent<BulletScript>().velocityX = 5f;
-            Instantiate(bullet, BulletPos, Quaternion.identity);
+            BulletPos += new Vector2(+1f, 0.45f);
+            bullet.GetComponent<BulletScript>().velocityX = 6f;
+            Instantiate(bullet, BulletPos, bullet.transform.rotation);
                     
         }
         else
         {
-            BulletPos += new Vector2(-0.5f, 0.35f);
-            bullet.GetComponent<BulletScript>().velocityX = -5f;
-            Instantiate(bullet, BulletPos, Quaternion.identity);
-
+            BulletPos += new Vector2(-1f, 0.45f);
+            bullet.GetComponent<BulletScript>().velocityX = -6f;
+            Instantiate(bullet, BulletPos, transform.rotation * Quaternion.Euler(0f, 0f, 90f));
+           // GameObject.Instantiate(prefab, transform.position, transform.rotation * Quaternion.Euler(0f, 180f, 0f));
         }
     }
 
