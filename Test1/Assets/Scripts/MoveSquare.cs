@@ -55,10 +55,16 @@ public class MoveSquare : MonoBehaviour
 
     }
 
+    private void MoveEndlessly()
+    {
+        rb2D.velocity = new Vector2(GameManager.gameManagerInstance.emptyObj.speed, rb2D.velocity.y);
+       
+    }
 
     void Update()
     {
-
+        MoveEndlessly();
+        anim.SetFloat("Speed", speed);
         Grounded = Physics2D.OverlapCircle(GroundCheck.position, groundcheckRadius, groundLayer);
         JumpAnimController(lastPosY);
 
@@ -71,7 +77,7 @@ public class MoveSquare : MonoBehaviour
             horizontal = Input.GetAxis("Horizontal");
 
             Move(horizontal);
-            anim.SetFloat("Speed", speed);
+          //  anim.SetFloat("Speed", speed);
         }
         else if (Input.GetAxis("Horizontal") == 0)
         {
@@ -79,7 +85,7 @@ public class MoveSquare : MonoBehaviour
             Move(horizontal);
 
 
-            anim.SetFloat("Speed", 0);
+          //  anim.SetFloat("Speed", 0);
         }
 #endif
 #if UNITY_ANDROID && !UNITY_EDITOR
@@ -224,7 +230,7 @@ public class MoveSquare : MonoBehaviour
             theScale.x = 1;
             transform.localScale = theScale;
             isFacingRight = true;
-            anim.SetFloat("Speed", 0);
+           // anim.SetFloat("Speed", 0);
         }
 
 

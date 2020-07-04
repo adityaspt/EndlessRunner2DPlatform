@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,12 +16,25 @@ public class GameManager : MonoBehaviour
     private ScoreManager scoremanager;
     public DeathMenu deathscreen;
     public GameObject PauseB;
-   
-   // public PauseMenu pauseScreen;
+    public GameObject TutorialCanvas;
+
+    private void Awake()
+    {
+        if (PlayerPrefs.GetInt("TutorialShown") == 0)
+        {
+            emptyObj.GetComponent<EmptyObjMove>().enabled = false;
+            PauseB.SetActive(false);
+            TutorialCanvas.SetActive(true);
+            PlayerPrefs.SetInt("TutorialShown", 1);
+        }
+    }
+
+    // public PauseMenu pauseScreen;
     // Start is called before the first frame update
     void Start()
     {
         
+
         gameManagerInstance = this;
         platformStartPoint = platformGenerator.position;
         playerStartPoint = thePlayer.transform.position;
@@ -39,7 +53,8 @@ public class GameManager : MonoBehaviour
         PowerUpManager.instance.powerUpLengthCounter = 0f;
         if (PowerUpManager.instance.textImmune.gameObject.activeSelf)
             PowerUpManager.instance.textImmune.gameObject.SetActive(false);
-       // StartCoroutine("restartGameCall");
+       
+        // StartCoroutine("restartGameCall");
     }
     public void ResetGamePlay()
     {
@@ -47,14 +62,14 @@ public class GameManager : MonoBehaviour
         {
             PauseB.SetActive(true);
         }
-        platformGenerator.position = platformStartPoint;
+       
         emptyObj.transform.position = emptyObjstartPoint;
 
         PowerUpManager.instance.powerUpLengthCounter = 0f;
         if (PowerUpManager.instance.textImmune.gameObject.activeSelf)
             PowerUpManager.instance.textImmune.gameObject.SetActive(false);
 
-
+      
         deathscreen.gameObject.SetActive(false);
         GameObject[] gobjs = GameObject.FindGameObjectsWithTag("Platform");
 
@@ -63,6 +78,7 @@ public class GameManager : MonoBehaviour
            // Destroy(g);
             g.SetActive(false);
         }
+        platformGenerator.position = platformStartPoint;
         platfromList = FindObjectsOfType<PlatformDestroy>();
         for (int i = 0; i < platfromList.Length; i++)
         {
@@ -76,6 +92,7 @@ public class GameManager : MonoBehaviour
         EmptyObjMove.emptyObjInstance.speed = EmptyObjMove.emptyObjInstance.speedStore;
         EmptyObjMove.emptyObjInstance.speedMilestoneTarget = EmptyObjMove.emptyObjInstance.speedMilestoneTargetStore;
         EmptyObjMove.emptyObjInstance.speedMilestoneCount = EmptyObjMove.emptyObjInstance.speedMilestoneTargetStore;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 
     }
     //public IEnumerator restartGameCall()

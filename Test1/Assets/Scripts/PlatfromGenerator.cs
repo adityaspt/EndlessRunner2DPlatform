@@ -23,9 +23,9 @@ public class PlatfromGenerator : MonoBehaviour
 
     private float DistanceBetween = 3.8f;
     [SerializeField]
-    private float DistanceBetweenMin = 2f;
+    private float DistanceBetweenMin ;
     [SerializeField]
-    private float DistanceBetweenMax = 6f;
+    private float DistanceBetweenMax ;
     private float PlatformWidth;
     public ObjectPooler[] objectpools;
 
@@ -116,22 +116,25 @@ public class PlatfromGenerator : MonoBehaviour
                 if (tempEnemySelect == 1)
                 {
                     GameObject newSpike = spikePool.GetPooledObjects();
-                    float spikeXPos = UnityEngine.Random.Range((-PlatformWidthsArray[platformSelector] / 2f) + 2.5f, (PlatformWidthsArray[platformSelector] / 2f) - 1.5f);
+                    float spikeXPos = UnityEngine.Random.Range((-PlatformWidthsArray[platformSelector] / 2f) + 2f, (PlatformWidthsArray[platformSelector] / 2f) - 3.5f);
                     Vector3 spikePos = new Vector3(spikeXPos, 0.75f, 0f);
+                    // Vector3 spikePos = new Vector3(newSpike.transform.position.x, 0.75f, 0f);
                     newSpike.transform.position = transform.position + spikePos;
                     newSpike.transform.rotation = transform.rotation;
                     newSpike.SetActive(true);
                 }
                 else
                 {
-                    GameObject newEnemy = enemySpawnPool.GetPooledObjects();
+                    if (platformSelector < 1)
+                    {
+                        GameObject newEnemy = enemySpawnPool.GetPooledObjects();
 
-                    float enemySpawnXPos = UnityEngine.Random.Range((-PlatformWidthsArray[platformSelector] / 2f) + 2.5f, (PlatformWidthsArray[platformSelector] / 2f) - 1f);
-                    Vector3 enemySpawnPos = new Vector3(enemySpawnXPos, 0.75f, 0f);
-                    newEnemy.transform.position = transform.position + enemySpawnPos;
-                    newEnemy.transform.rotation = transform.rotation;
-                    newEnemy.SetActive(true);
-
+                        float enemySpawnXPos = UnityEngine.Random.Range((-PlatformWidthsArray[platformSelector] / 2f) + 2.5f, (PlatformWidthsArray[platformSelector] / 2f) - 1f);
+                        Vector3 enemySpawnPos = new Vector3(enemySpawnXPos, 0.75f, 0f);
+                        newEnemy.transform.position = transform.position + enemySpawnPos;
+                        newEnemy.transform.rotation = transform.rotation;
+                        newEnemy.SetActive(true);
+                    }
                 }
             }
 
