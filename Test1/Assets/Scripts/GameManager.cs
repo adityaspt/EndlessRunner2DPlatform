@@ -25,10 +25,14 @@ public class GameManager : MonoBehaviour
             emptyObj.GetComponent<EmptyObjMove>().enabled = false;
             PauseB.SetActive(false);
             TutorialCanvas.SetActive(true);
-            PlayerPrefs.SetInt("TutorialShown", 1);
+           
         }
     }
 
+    public void SetPlayerPrefTutorialShown()
+    {
+        PlayerPrefs.SetInt("TutorialShown", 1);
+    }
     // public PauseMenu pauseScreen;
     // Start is called before the first frame update
     void Start()
@@ -55,6 +59,10 @@ public class GameManager : MonoBehaviour
             PowerUpManager.instance.textImmune.gameObject.SetActive(false);
        
         // StartCoroutine("restartGameCall");
+    }
+    public void PlayNormalSFX()
+    {
+        SFXSound.PlaySound("GUISound");
     }
     public void ResetGamePlay()
     {

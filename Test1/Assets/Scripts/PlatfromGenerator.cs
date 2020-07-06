@@ -115,17 +115,21 @@ public class PlatfromGenerator : MonoBehaviour
                 int tempEnemySelect = UnityEngine.Random.Range(1, 3);
                 if (tempEnemySelect == 1)
                 {
-                    GameObject newSpike = spikePool.GetPooledObjects();
-                    float spikeXPos = UnityEngine.Random.Range((-PlatformWidthsArray[platformSelector] / 2f) + 2f, (PlatformWidthsArray[platformSelector] / 2f) - 3.5f);
-                    Vector3 spikePos = new Vector3(spikeXPos, 0.75f, 0f);
-                    // Vector3 spikePos = new Vector3(newSpike.transform.position.x, 0.75f, 0f);
-                    newSpike.transform.position = transform.position + spikePos;
-                    newSpike.transform.rotation = transform.rotation;
-                    newSpike.SetActive(true);
+                    if (platformSelector > 0)
+                    {
+                        GameObject newSpike = spikePool.GetPooledObjects();
+                        float spikeXPos = (PlatformWidthsArray[platformSelector] / 2) - 3;// UnityEngine.Random.Range((-PlatformWidthsArray[platformSelector] / 2f) + 3f, (PlatformWidthsArray[platformSelector] / 2f) - 4f);
+                        Vector3 spikePos = new Vector3(spikeXPos, 0.75f, 0f);
+                        // Vector3 spikePos = new Vector3(newSpike.transform.position.x, 0.75f, 0f);
+                        newSpike.transform.position = transform.position + spikePos;
+                        newSpike.transform.rotation = transform.rotation;
+                        newSpike.SetActive(true);
+
+                    }
                 }
                 else
                 {
-                    if (platformSelector < 1)
+                    if (platformSelector > 1)
                     {
                         GameObject newEnemy = enemySpawnPool.GetPooledObjects();
 

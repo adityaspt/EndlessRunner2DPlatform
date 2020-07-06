@@ -7,7 +7,7 @@ public class MoveSquare : MonoBehaviour
 
     public GameObject bullet;
     Vector2 BulletPos;
-    public float fireRate = 10f;
+    public float fireRate;
     float nextFire = 0.0f;
     public bool pressedFire = false;
 
@@ -16,8 +16,8 @@ public class MoveSquare : MonoBehaviour
 
 
     //Audio
-    public AudioSource jumpSound;
-    public AudioSource deathSound;
+    //public AudioSource jumpSound;
+    //public AudioSource deathSound;
 
     //Audio
 
@@ -44,6 +44,12 @@ public class MoveSquare : MonoBehaviour
     private float hInput = 0f;
     bool jumpDevice = false;
 
+    float fJumpPressedRemember;
+    float fJumpPressedRememberTime=0.2f;
+
+    float fGroundedRemember;
+    float fGroundedRememberTime = 0.4f;
+
     void Start()
     {
         mainInstance = this;
@@ -58,13 +64,14 @@ public class MoveSquare : MonoBehaviour
     private void MoveEndlessly()
     {
         rb2D.velocity = new Vector2(GameManager.gameManagerInstance.emptyObj.speed, rb2D.velocity.y);
-       
+        anim.SetFloat("Speed", speed);
+
     }
 
     void Update()
     {
-        MoveEndlessly();
-        anim.SetFloat("Speed", speed);
+        if (PlayerPrefs.GetInt("TutorialShown") == 1)
+            MoveEndlessly();
         Grounded = Physics2D.OverlapCircle(GroundCheck.position, groundcheckRadius, groundLayer);
         JumpAnimController(lastPosY);
 
@@ -77,7 +84,7 @@ public class MoveSquare : MonoBehaviour
             horizontal = Input.GetAxis("Horizontal");
 
             Move(horizontal);
-          //  anim.SetFloat("Speed", speed);
+            //  anim.SetFloat("Speed", speed);
         }
         else if (Input.GetAxis("Horizontal") == 0)
         {
@@ -85,7 +92,7 @@ public class MoveSquare : MonoBehaviour
             Move(horizontal);
 
 
-          //  anim.SetFloat("Speed", 0);
+            //  anim.SetFloat("Speed", 0);
         }
 #endif
 #if UNITY_ANDROID && !UNITY_EDITOR
@@ -94,11 +101,21 @@ public class MoveSquare : MonoBehaviour
 #endif
 
 
-
-
-
-        if ((Input.GetButtonDown("Jump") && Grounded) || (jumpDevice && Grounded))
+        fJumpPressedRemember = -Time.deltaTime;
+        fGroundedRemember = -Time.deltaTime;
+        if (Grounded)
         {
+            fGroundedRemember = fGroundedRememberTime;
+        }
+
+        if((Input.GetButtonDown("Jump") || jumpDevice)){
+            fJumpPressedRemember = fJumpPressedRememberTime;
+        }
+
+        if ((fGroundedRemember>0 && fJumpPressedRemember>0) )//|| (fGroundedRemember > 0 && fJumpPressedRemember>0))
+        {
+            fGroundedRemember = 0;
+            fJumpPressedRemember = 0;
             JumpCount = 0;
             Jump(JumpPower);
             jumpDevice = false;
@@ -121,11 +138,12 @@ public class MoveSquare : MonoBehaviour
         if(pressedFire &&   Time.time>nextFire)
 #endif
 #if UNITY_EDITOR
-        if (Input.GetMouseButtonDown(1) && Time.time>nextFire)
+        if (Input.GetMouseButtonDown(1) && Time.time > nextFire)
 #endif
 
         {
             nextFire = Time.time + fireRate;
+
             shootBullet();
             pressedFire = false;
         }
@@ -133,30 +151,39 @@ public class MoveSquare : MonoBehaviour
 
 
     }
-
+    float bulletVelocity = 6.5f;
     void shootBullet()
     {
+        SFXSound.PlaySound("Laser2");
         BulletPos = transform.position;
         if (isFacingRight)
         {
             BulletPos += new Vector2(+1f, 0.45f);
-            bullet.GetComponent<BulletScript>().velocityX = 6f;
+            bullet.GetComponent<BulletScript>().velocityX = 6.5f;
             Instantiate(bullet, BulletPos, bullet.transform.rotation);
-                    
+
         }
         else
         {
             BulletPos += new Vector2(-1f, 0.45f);
-            bullet.GetComponent<BulletScript>().velocityX = -6f;
+            bullet.GetComponent<BulletScript>().velocityX = -6.5f;
             Instantiate(bullet, BulletPos, transform.rotation * Quaternion.Euler(0f, 0f, 90f));
-           // GameObject.Instantiate(prefab, transform.position, transform.rotation * Quaternion.Euler(0f, 180f, 0f));
+            // GameObject.Instantiate(prefab, transform.position, transform.rotation * Quaternion.Euler(0f, 180f, 0f));
         }
+
     }
 
 
-    public void JumpDeviceButton()
+    public void JumpDeviceButtonDown()
     {
+       
         jumpDevice = true;
+
+    }
+    public void JumpDeviceButtonUp()
+    {
+
+        jumpDevice = false;
 
     }
     public void FireBulletDeviceButton()
@@ -177,7 +204,8 @@ public class MoveSquare : MonoBehaviour
 
         if (collision.CompareTag("Kill") || collision.CompareTag("Enemy") || collision.CompareTag("FireKill"))
         {
-            deathSound.Play();
+            SFXSound.PlaySound("Death");
+           // deathSound.Play();
             GameManager.gameManagerInstance.RestartGame();
             print("GameOver");
 
@@ -224,13 +252,13 @@ public class MoveSquare : MonoBehaviour
             }
         }
 #endif
-        if (horizontal==0)
+        if (horizontal == 0)
         {
             Vector2 theScale = transform.localScale;
             theScale.x = 1;
             transform.localScale = theScale;
             isFacingRight = true;
-           // anim.SetFloat("Speed", 0);
+            // anim.SetFloat("Speed", 0);
         }
 
 
@@ -267,16 +295,17 @@ public class MoveSquare : MonoBehaviour
         JumpCount++;
         isJumped = true;
 
-        if (jumpSound.isPlaying)
-        {
-            jumpSound.Stop();
-            jumpSound.Play();
-        }
-        else
-        {
-            jumpSound.Play();
-        }
-        jumpSound.Play();
+        //if (jumpSound.isPlaying)
+        //{
+        //    jumpSound.Stop();
+        //    jumpSound.Play();
+        //}
+        //else
+        //{
+        //    jumpSound.Play();
+        //}
+        //jumpSound.Play();
+        SFXSound.PlaySound("Jump");
 
     }
 
@@ -294,4 +323,13 @@ public class MoveSquare : MonoBehaviour
             Grounded = false;
         }
     }
+
+    public GameObject ClosestEnemy;
+    public void FindNearestObstacle()
+    {
+        float closestDistance = Mathf.Infinity;
+        ClosestEnemy = null;
+     //   GameObject[] enemyList=GameObject.FindGameObjectsWithTag
+    }
+
 }

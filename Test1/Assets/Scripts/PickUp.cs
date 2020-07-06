@@ -11,7 +11,7 @@ public class PickUp : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        coinSound = GameObject.Find("CoinSound").GetComponent<AudioSource>();
+       // coinSound = GameObject.Find("CoinSound").GetComponent<AudioSource>();
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -19,16 +19,16 @@ public class PickUp : MonoBehaviour
         {
             print("Get coin");
             ScoreManager.instance.AddScore(ScoreToGive);
-            if(coinSound.isPlaying)
-            {
-                coinSound.Stop();
-                coinSound.Play();
-            }
-            else
-            {
-                coinSound.Play();
-            }
-            
+            //if(coinSound.isPlaying)
+            //{
+            //    coinSound.Stop();
+            //    coinSound.Play();
+            //}
+            //else
+            //{
+            //    coinSound.Play();
+            //}
+            SFXSound.PlaySound("Pickup_Coin");
             gameObject.SetActive(false);
 
         }

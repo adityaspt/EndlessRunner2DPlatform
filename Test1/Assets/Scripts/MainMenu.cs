@@ -11,14 +11,26 @@ public class MainMenu : MonoBehaviour
         {
             PlayerPrefs.SetInt("TutorialShown", 0);
         }
+        if (!PlayerPrefs.HasKey("SFXOn"))
+        {
+            PlayerPrefs.SetInt("SFXOn", 1);
+        }
+        if (!PlayerPrefs.HasKey("MusicOn"))
+        {
+            PlayerPrefs.SetInt("MusicOn", 1);
+        }
     }
     // Start is called before the first frame update
     public void PlayGame()
     {
+        SFXSound.PlaySound("GUISound");
         SceneManager.LoadScene(1);
     }
     public void QuitGame()
     {
+        SFXSound.PlaySound("GUISound");
         Application.Quit();
     }
+
+
 }

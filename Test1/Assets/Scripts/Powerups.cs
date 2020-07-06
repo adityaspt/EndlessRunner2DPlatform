@@ -17,6 +17,7 @@ public class Powerups : MonoBehaviour
     {
         if(collision.name=="Player")
         {
+            SFXSound.PlaySound("Powerup");
             thePowerUpManager.ActivatePowerUp(safeMode,powerupLength);
         }
         gameObject.SetActive(false);

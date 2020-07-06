@@ -14,6 +14,7 @@ public class PowerUpManager : MonoBehaviour
     private bool safeMode;
     private bool powerUpActive = false;
     public float powerUpLengthCounter;
+    public GameObject Shield;
     public TextMeshProUGUI textImmune;
     GameObject[] arr;
     string[] KillTags = { "Kill", "Enemy" };
@@ -33,10 +34,11 @@ public class PowerUpManager : MonoBehaviour
 
 
             powerUpLengthCounter -= Time.deltaTime;
-            textImmune.text = "Shield for " + Convert.ToInt32(powerUpLengthCounter) + " seconds";
+            textImmune.text =  Convert.ToInt32(powerUpLengthCounter).ToString() ;
             StartCoroutine(FadeCanvasGroup());
             if (powerUpLengthCounter <= 0)
             {
+                Shield.gameObject.SetActive(false);
                 textImmune.gameObject.SetActive(false);
 
                 //GameObject[] arr;
@@ -124,11 +126,12 @@ public class PowerUpManager : MonoBehaviour
                 }
                 else
                 {
-                    item.GetComponent<BoxCollider2D>().isTrigger = false;
+                    item.GetComponent<BoxCollider2D>().isTrigger = true;
                     item.gameObject.tag = "NoDamage";
                 }
             }
         }
+        Shield.gameObject.SetActive(true);
         textImmune.gameObject.SetActive(true);
         powerUpActive = true;
     }
