@@ -148,9 +148,60 @@ public class MoveSquare : MonoBehaviour
             pressedFire = false;
         }
 
-
+        
 
     }
+    float thrust = 100f;
+    public Transform dashTrailPrefab;
+    void Dash()
+    {
+        Vector3 beforeDashPos = transform.position;
+        Transform dashEffectTransform = Instantiate(dashTrailPrefab, beforeDashPos, Quaternion.identity);
+        dashEffectTransform.eulerAngles = new Vector3(0, 0);
+        float dashEffectWidth = 1079f;
+        
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.forward, thrust);
+        Debug.DrawRay(transform.position, transform.forward, Color.red);
+        // Physics2D.Raycast r1=new  Physics2D.Raycast(transform.position, Vector2.right, thrust);
+        // if (CanMove(thrust, "Platform"))
+        if (hit.collider == null)
+        {
+            //rb2D.AddForce(Vector2.right * thrust);
+            transform.position += new Vector3(thrust * Time.deltaTime, 0f, 0.0f);
+            dashEffectTransform.localScale = new Vector3(thrust / dashEffectWidth, .1079f, 1f);
+        }
+        else
+        {
+            transform.position += new Vector3(hit.distance * Time.deltaTime, 0f, 0.0f);
+            dashEffectTransform.localScale = new Vector3(hit.distance / dashEffectWidth, .1079f, 1f);
+        }
+        
+    }
+    private void FixedUpdate()
+    {
+        if (Input.GetKeyDown(ButtonZ))
+        {
+            Dash();
+        }
+    }
+    //bool CanMove(float distance,params string[] dontcollideTags) {
+        //bool a = false;
+        //for (int i = 0; i < dontcollideTags.Length; i++)
+        //{
+        //    if (!Physics2D.Raycast(transform.position, Vector2.right, distance).collider.CompareTag(dontcollideTags[i]))
+        //    {
+        //        a = false;
+        //    }
+        //    else
+        //    {
+        //        a= true;
+        //    }
+        //}
+        //return a;
+        //if(Physics2D.Raycast(transform.position, Vector2.right, distance).collider==null);
+       // Ra
+   // }
+    public KeyCode ButtonZ;
     float bulletVelocity = 6.5f;
     void shootBullet()
     {
@@ -202,7 +253,7 @@ public class MoveSquare : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
 
-        if (collision.CompareTag("Kill") || collision.CompareTag("Enemy") || collision.CompareTag("FireKill"))
+        if (collision.CompareTag("Kill") || collision.CompareTag("Enemy") || collision.CompareTag("FireKill") || collision.CompareTag("Ground"))
         {
             SFXSound.PlaySound("Death");
            // deathSound.Play();
@@ -324,12 +375,14 @@ public class MoveSquare : MonoBehaviour
         }
     }
 
-    public GameObject ClosestEnemy;
-    public void FindNearestObstacle()
-    {
-        float closestDistance = Mathf.Infinity;
-        ClosestEnemy = null;
-     //   GameObject[] enemyList=GameObject.FindGameObjectsWithTag
-    }
+    //public GameObject ClosestEnemy;
+    //public void FindNearestObstacle()
+    //{
+    //    float closestDistance = Mathf.Infinity;
+    //    ClosestEnemy = null;
+    //    List<GameObject> items = new List<GameObject>(GameObject.FindGameObjectsWithTag("tag1"));
+    //    items.AddRange(new List<GameObject>(GameObject.FindGameObjectsWithTag("tag2")));
+    //    //   GameObject[] enemyList=GameObject.FindGameObjectsWithTag
+    //}
 
 }

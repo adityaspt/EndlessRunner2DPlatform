@@ -17,7 +17,7 @@ public class PowerUpManager : MonoBehaviour
     public GameObject Shield;
     public TextMeshProUGUI textImmune;
     GameObject[] arr;
-    string[] KillTags = { "Kill", "Enemy" };
+    string[] KillTags = { "Kill", "Enemy","Ground" };
     // Start is called before the first frame update
     void Start()
     {

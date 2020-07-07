@@ -6350,7 +6350,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78ee6439a247b624f8fdf5f2a15e2f16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
+  speed: 0
   speedStore: 0
   speedMilestoneTargetStore: 0
   speedMilestoneTarget: 25
@@ -7603,7 +7603,7 @@ GameObject:
   - component: {fileID: 1602164192}
   m_Layer: 8
   m_Name: TestGround
-  m_TagString: Kill
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8582,6 +8582,9 @@ MonoBehaviour:
     m_Bits: 512
   GroundCheck: {fileID: 715125977}
   groundcheckRadius: 0.15
+  dashTrailPrefab: {fileID: 6367222678942748360, guid: 35b0d805ce03d7c448f83b52309c6796,
+    type: 3}
+  ButtonZ: 122
 --- !u!95 &1687235575
 Animator:
   serializedVersion: 3
