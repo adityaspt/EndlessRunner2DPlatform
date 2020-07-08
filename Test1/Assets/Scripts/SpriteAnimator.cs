@@ -8,6 +8,7 @@ public class SpriteAnimator : MonoBehaviour
     private Sprite[] framearray;
     private int currentFrame;
     private float timer;
+    [SerializeField]
     private float frameRate = .1f;
     private SpriteRenderer spriteRenderer;
     // Start is called before the first frame update

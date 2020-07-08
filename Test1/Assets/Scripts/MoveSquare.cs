@@ -52,6 +52,7 @@ public class MoveSquare : MonoBehaviour
 
     void Start()
     {
+        
         mainInstance = this;
         isFacingRight = true;
         anim = GetComponent<Animator>();
@@ -103,12 +104,12 @@ public class MoveSquare : MonoBehaviour
 
         fJumpPressedRemember = -Time.deltaTime;
         fGroundedRemember = -Time.deltaTime;
-        if (Grounded)
+        if (Grounded || canJumpAfterDash)
         {
             fGroundedRemember = fGroundedRememberTime;
         }
 
-        if((Input.GetButtonDown("Jump") || jumpDevice)){
+        if((Input.GetButtonDown("Jump") || jumpDevice) ){
             fJumpPressedRemember = fJumpPressedRememberTime;
         }
 
@@ -155,33 +156,50 @@ public class MoveSquare : MonoBehaviour
     public Transform dashTrailPrefab;
     void Dash()
     {
+        
         Vector3 beforeDashPos = transform.position;
-        Transform dashEffectTransform = Instantiate(dashTrailPrefab, beforeDashPos, Quaternion.identity);
-        dashEffectTransform.eulerAngles = new Vector3(0, 0);
+        //Transform dashEffectTransform = Instantiate(dashTrailPrefab, beforeDashPos, Quaternion.identity);
+        //dashEffectTransform.eulerAngles = new Vector3(0, 0);
         float dashEffectWidth = 1079f;
         
         RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.forward, thrust);
-        Debug.DrawRay(transform.position, transform.forward, Color.red);
-        // Physics2D.Raycast r1=new  Physics2D.Raycast(transform.position, Vector2.right, thrust);
-        // if (CanMove(thrust, "Platform"))
+        
         if (hit.collider == null)
         {
             //rb2D.AddForce(Vector2.right * thrust);
             transform.position += new Vector3(thrust * Time.deltaTime, 0f, 0.0f);
+            Transform dashEffectTransform = Instantiate(dashTrailPrefab, new Vector2(beforeDashPos.x,transform.position.y+0.2f), Quaternion.identity);
+            dashEffectTransform.eulerAngles = new Vector3(0, 0);
             dashEffectTransform.localScale = new Vector3(thrust / dashEffectWidth, .1079f, 1f);
         }
         else
         {
             transform.position += new Vector3(hit.distance * Time.deltaTime, 0f, 0.0f);
+            Transform dashEffectTransform = Instantiate(dashTrailPrefab, new Vector2(beforeDashPos.x, transform.position.y+ 0.2f), Quaternion.identity);
+            dashEffectTransform.eulerAngles = new Vector3(0, 0);
             dashEffectTransform.localScale = new Vector3(hit.distance / dashEffectWidth, .1079f, 1f);
         }
-        
+        if (Grounded)
+        {
+            canJumpAfterDash = false;
+        }
     }
+    bool canJumpAfterDash=false;
+   
     private void FixedUpdate()
     {
-        if (Input.GetKeyDown(ButtonZ))
+        if (!DashCoolDown.CoolDownStarted)
         {
-            Dash();
+            if (Input.GetKeyDown(ButtonZ) || DashDevice)
+            {
+                DashDevice = false;
+                if (Grounded)
+                {
+                    canJumpAfterDash = true;
+                    print("dash and grounded");
+                }
+                Dash();
+            }
         }
     }
     //bool CanMove(float distance,params string[] dontcollideTags) {
@@ -224,6 +242,11 @@ public class MoveSquare : MonoBehaviour
 
     }
 
+   public bool DashDevice = false;
+    public void DashDeviceButton()
+    {
+        DashDevice = true;
+    }
 
     public void JumpDeviceButtonDown()
     {
