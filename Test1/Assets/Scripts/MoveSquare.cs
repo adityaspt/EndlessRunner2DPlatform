@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MoveSquare : MonoBehaviour
 {
@@ -45,14 +46,14 @@ public class MoveSquare : MonoBehaviour
     bool jumpDevice = false;
 
     float fJumpPressedRemember;
-    float fJumpPressedRememberTime=0.2f;
+    float fJumpPressedRememberTime = 0.2f;
 
     float fGroundedRemember;
     float fGroundedRememberTime = 0.4f;
 
     void Start()
     {
-        
+
         mainInstance = this;
         isFacingRight = true;
         anim = GetComponent<Animator>();
@@ -109,11 +110,12 @@ public class MoveSquare : MonoBehaviour
             fGroundedRemember = fGroundedRememberTime;
         }
 
-        if((Input.GetButtonDown("Jump") || jumpDevice) ){
+        if ((Input.GetButtonDown("Jump") || jumpDevice ))
+        {
             fJumpPressedRemember = fJumpPressedRememberTime;
         }
 
-        if ((fGroundedRemember>0 && fJumpPressedRemember>0) )//|| (fGroundedRemember > 0 && fJumpPressedRemember>0))
+        if ((fGroundedRemember > 0 && fJumpPressedRemember > 0))//|| (fGroundedRemember > 0 && fJumpPressedRemember>0))
         {
             fGroundedRemember = 0;
             fJumpPressedRemember = 0;
@@ -121,7 +123,7 @@ public class MoveSquare : MonoBehaviour
             Jump(JumpPower);
             jumpDevice = false;
         }
-        else if ((!Grounded && JumpCount < 2 && Input.GetButtonDown("Jump")) || (!Grounded && JumpCount < 2 && jumpDevice))
+        else if (((!Grounded ) && JumpCount < 2 && Input.GetButtonDown("Jump")) || ((!Grounded ) && JumpCount < 2 && jumpDevice))
         {
             Jump(JumpPower);
             jumpDevice = false;
@@ -148,77 +150,107 @@ public class MoveSquare : MonoBehaviour
             shootBullet();
             pressedFire = false;
         }
+        if (Input.GetKeyDown(ButtonZ) || DashDevice)
+        {
+            Debug.Log("Pressed z");
 
-        
-
-    }
-    float thrust = 100f;
-    public Transform dashTrailPrefab;
-    void Dash()
-    {
-        
-        Vector3 beforeDashPos = transform.position;
-        //Transform dashEffectTransform = Instantiate(dashTrailPrefab, beforeDashPos, Quaternion.identity);
-        //dashEffectTransform.eulerAngles = new Vector3(0, 0);
-        float dashEffectWidth = 1079f;
-        
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.forward, thrust);
-        
-        if (hit.collider == null)
-        {
-            //rb2D.AddForce(Vector2.right * thrust);
-            transform.position += new Vector3(thrust * Time.deltaTime, 0f, 0.0f);
-            Transform dashEffectTransform = Instantiate(dashTrailPrefab, new Vector2(beforeDashPos.x,transform.position.y+0.2f), Quaternion.identity);
-            dashEffectTransform.eulerAngles = new Vector3(0, 0);
-            dashEffectTransform.localScale = new Vector3(thrust / dashEffectWidth, .1079f, 1f);
-        }
-        else
-        {
-            transform.position += new Vector3(hit.distance * Time.deltaTime, 0f, 0.0f);
-            Transform dashEffectTransform = Instantiate(dashTrailPrefab, new Vector2(beforeDashPos.x, transform.position.y+ 0.2f), Quaternion.identity);
-            dashEffectTransform.eulerAngles = new Vector3(0, 0);
-            dashEffectTransform.localScale = new Vector3(hit.distance / dashEffectWidth, .1079f, 1f);
-        }
-        if (Grounded)
-        {
-            canJumpAfterDash = false;
-        }
-    }
-    bool canJumpAfterDash=false;
-   
-    private void FixedUpdate()
-    {
-        if (!DashCoolDown.CoolDownStarted)
-        {
-            if (Input.GetKeyDown(ButtonZ) || DashDevice)
+            if (!CoolDownStarted)
             {
-                DashDevice = false;
+                Debug.Log("Came under dash, not colldownstart");
+
                 if (Grounded)
                 {
                     canJumpAfterDash = true;
                     print("dash and grounded");
                 }
+                //anim.SetTrigger("DashAnim");
                 Dash();
+                StartCoroutine("StopTrailAfter2Secs");
+                ChildImageCoolDown.fillAmount = 0;
+                CoolDownStarted = true;
+                DashDevice = false;
+                // canDashNow = false;
+            }
+            else
+            {
+                DashDevice = false;
+
+            }
+
+        }
+
+        if (CoolDownStarted)
+        {
+
+
+
+            ChildImageCoolDown.fillAmount += 1 / CoolDown * Time.deltaTime;
+            if (ChildImageCoolDown.fillAmount == 1)
+            {
+                CoolDownStarted = false;
+
+
             }
         }
+
+
     }
-    //bool CanMove(float distance,params string[] dontcollideTags) {
-        //bool a = false;
-        //for (int i = 0; i < dontcollideTags.Length; i++)
-        //{
-        //    if (!Physics2D.Raycast(transform.position, Vector2.right, distance).collider.CompareTag(dontcollideTags[i]))
-        //    {
-        //        a = false;
-        //    }
-        //    else
-        //    {
-        //        a= true;
-        //    }
-        //}
-        //return a;
-        //if(Physics2D.Raycast(transform.position, Vector2.right, distance).collider==null);
-       // Ra
-   // }
+    [SerializeField]
+    private TrailRenderer PlayerTrailRenderer;
+    float thrust = 100f;
+    public Transform dashTrailPrefab;
+    void Dash()
+    {
+
+        Vector3 beforeDashPos = transform.position;
+        //Transform dashEffectTransform = Instantiate(dashTrailPrefab, beforeDashPos, Quaternion.identity);
+        //dashEffectTransform.eulerAngles = new Vector3(0, 0);
+        //  float dashEffectWidth = 2009f;
+        PlayerTrailRenderer.GetComponent<TrailRenderer>().enabled = true;
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.forward, thrust);
+
+        if (hit.collider == null)
+        {
+            //rb2D.AddForce(Vector2.right * thrust);
+            transform.position += new Vector3(thrust * Time.deltaTime, 0f, 0.0f);
+            //Transform dashEffectTransform = Instantiate(dashTrailPrefab, new Vector2(beforeDashPos.x, transform.position.y + 0.2f), Quaternion.identity);
+            //dashEffectTransform.eulerAngles = new Vector3(0, 0);
+            //dashEffectTransform.localScale = new Vector3(thrust / dashEffectWidth, .1079f, 1f);
+        }
+        else
+        {
+            transform.position += new Vector3(hit.distance * Time.deltaTime, 0f, 0.0f);
+            //Transform dashEffectTransform = Instantiate(dashTrailPrefab, new Vector2(beforeDashPos.x, transform.position.y + 0.2f), Quaternion.identity);
+            //dashEffectTransform.eulerAngles = new Vector3(0, 0);
+            //dashEffectTransform.localScale = new Vector3(hit.distance / dashEffectWidth, .1079f, 1f);
+        }
+        if (Grounded)
+        {
+            canJumpAfterDash = false;
+        }
+        
+    }
+    IEnumerator StopTrailAfter2Secs()
+    {
+        yield return new WaitForSeconds(0.5f);
+        PlayerTrailRenderer.GetComponent<TrailRenderer>().enabled = false;
+
+    }
+    bool canJumpAfterDash = false;
+
+   // public bool canDashNow = false;
+    public Image ChildImageCoolDown;
+    public float CoolDown = 5;
+    public  bool CoolDownStarted = false;
+    private void FixedUpdate()
+    {
+
+     
+
+
+
+    }
+    
     public KeyCode ButtonZ;
     float bulletVelocity = 6.5f;
     void shootBullet()
@@ -242,7 +274,7 @@ public class MoveSquare : MonoBehaviour
 
     }
 
-   public bool DashDevice = false;
+    public bool DashDevice = false;
     public void DashDeviceButton()
     {
         DashDevice = true;
@@ -250,7 +282,7 @@ public class MoveSquare : MonoBehaviour
 
     public void JumpDeviceButtonDown()
     {
-       
+
         jumpDevice = true;
 
     }
@@ -279,7 +311,7 @@ public class MoveSquare : MonoBehaviour
         if (collision.CompareTag("Kill") || collision.CompareTag("Enemy") || collision.CompareTag("FireKill") || collision.CompareTag("Ground"))
         {
             SFXSound.PlaySound("Death");
-           // deathSound.Play();
+            // deathSound.Play();
             GameManager.gameManagerInstance.RestartGame();
             print("GameOver");
 
