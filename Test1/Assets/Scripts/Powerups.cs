@@ -19,8 +19,9 @@ public class Powerups : MonoBehaviour
         {
             SFXSound.PlaySound("Powerup");
             thePowerUpManager.ActivatePowerUp(safeMode,powerupLength);
+            gameObject.SetActive(false);
         }
-        gameObject.SetActive(false);
+       
     }
     // Update is called once per frame
     void Update()

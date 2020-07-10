@@ -11,6 +11,7 @@ TagManager:
   - NoDamage
   - FireKill
   - Ground
+  - PowerUp
   layers:
   - Default
   - TransparentFX

@@ -305,11 +305,13 @@ public class MoveSquare : MonoBehaviour
 
 
     }
+    public Vector2 wherePlayerDiedPos;
     private void OnTriggerEnter2D(Collider2D collision)
     {
 
         if (collision.CompareTag("Kill") || collision.CompareTag("Enemy") || collision.CompareTag("FireKill") || collision.CompareTag("Ground"))
         {
+            wherePlayerDiedPos = transform.position;
             SFXSound.PlaySound("Death");
             // deathSound.Play();
             GameManager.gameManagerInstance.RestartGame();
@@ -319,7 +321,53 @@ public class MoveSquare : MonoBehaviour
 
     }
 
+    public void RespawnPlayer()
+    {
 
+        if (wherePlayerDiedPos.x > 7.5f)
+        {
+            GameObject[] platforms = GameObject.FindGameObjectsWithTag("Platform");
+            float MinDistance = Mathf.Infinity;
+            //float temp;
+            GameObject closestPlatform = null;
+            if (platforms != null)
+            {
+                foreach (GameObject obj in platforms)
+                {
+
+
+                    Vector3 diff = obj.transform.position - transform.position;
+                    float curDistance = diff.sqrMagnitude;
+                    if (curDistance < MinDistance)
+                    {
+                        closestPlatform = obj;
+                        MinDistance = curDistance;
+
+                    }
+
+                }
+                print("The closest platform name is " + closestPlatform.name);
+                //  transform.position = closestPlatform.transform.position+(new Vector2((closestPlatform.GetComponent<BoxCollider2D>().size.x / 2) - 3, 0.75f));
+                float newXPos = closestPlatform.transform.position.x-(closestPlatform.GetComponent<BoxCollider2D>().size.x / 2) +1 ;
+                float newYPos = closestPlatform.transform.position.y + 0.75f;
+                //Vector3 newPos = new Vector3(newXPos, 0.75f, 0f);
+                // Vector3 spikePos = new Vector3(newSpike.transform.position.x, 0.75f, 0f);
+                transform.position = new Vector2(newXPos,newYPos);//closestPlatform.transform.position + newPos;
+                gameObject.SetActive(true);
+                PowerUpManager.instance.ActivatePowerUp(true, 5);
+
+            }
+            else
+            {
+                print("No platforms formed");
+                return;
+            }
+        }
+        else
+        {
+            GameManager.gameManagerInstance.ResetGamePlay();
+        }
+    }
 
 
     public void Move(float horizontal)

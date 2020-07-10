@@ -21,7 +21,7 @@ public class BulletScript : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (!collision.gameObject.CompareTag("Enemy") || !collision.gameObject.CompareTag("Player") || !collision.gameObject.CompareTag("Bullet"))
+        if (!collision.gameObject.CompareTag("Enemy") || !collision.gameObject.CompareTag("Player") || !collision.gameObject.CompareTag("Bullet") || !collision.gameObject.CompareTag("PowerUp"))
         {
             Destroy(gameObject);
 
