@@ -19,14 +19,27 @@ public class GameManager : MonoBehaviour
     public GameObject PauseB;
     public GameObject TutorialCanvas;
     public Button RespawnButton;
+    public GameObject Lives;
+    public GameObject WatchAdScreen;
 
-   public void ClickRespawnButton()
+
+    public void ClickRespawnButton()
     {
-        deathscreen.gameObject.SetActive(false);
-        //PowerUpManager.instance.powerUpLengthCounter = 0f;
+        if (PlayerPrefs.GetInt("Lifes") > 0)
+        {
+            PlayerPrefs.SetInt("Lifes", PlayerPrefs.GetInt("Lifes") - 1);
+            UpdateForLives();
+            deathscreen.gameObject.SetActive(false);
+            //PowerUpManager.instance.powerUpLengthCounter = 0f;
 
-       // PowerUpManager.instance.textImmune.gameObject.SetActive(true);
-        MoveSquare.mainInstance.RespawnPlayer();
+            // PowerUpManager.instance.textImmune.gameObject.SetActive(true);
+            MoveSquare.mainInstance.RespawnPlayer();
+        }
+        else
+        {
+            deathscreen.gameObject.SetActive(false);
+            WatchAdScreen.SetActive(true);
+        }
 
     }
 
@@ -38,6 +51,33 @@ public class GameManager : MonoBehaviour
             PauseB.SetActive(false);
             TutorialCanvas.SetActive(true);
 
+        }
+
+        UpdateForLives();
+    }
+    public void UpdateForLives()
+    {
+        int numOfLifes = PlayerPrefs.GetInt("Lifes");
+        if (numOfLifes > 0)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                if (i + 1 <= numOfLifes)
+                    Lives.transform.GetChild(i).gameObject.SetActive(true);
+                else
+                    Lives.transform.GetChild(i).gameObject.SetActive(false);
+            }
+        }
+        else if (numOfLifes <= 0)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+               
+                   Lives.transform.GetChild(i).gameObject.SetActive(false);
+                 
+            }
+
+                Lives.transform.GetChild(3).gameObject.SetActive(true);
         }
     }
 

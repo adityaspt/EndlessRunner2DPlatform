@@ -19,6 +19,10 @@ public class MainMenu : MonoBehaviour
         {
             PlayerPrefs.SetInt("MusicOn", 1);
         }
+        if (!PlayerPrefs.HasKey("Lifes"))
+        {
+            PlayerPrefs.SetInt("Lifes", 3);
+        }
     }
     // Start is called before the first frame update
     public void PlayGame()
