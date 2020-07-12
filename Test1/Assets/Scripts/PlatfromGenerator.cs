@@ -161,7 +161,11 @@ public class PlatfromGenerator : MonoBehaviour
             if (UnityEngine.Random.Range(0, 100f) < powerUpThreshold)
             {
                 GameObject newPowerUp = powerUpPool.GetPooledObjects();
-
+                //newPowerUp.transform.SetParent(powerUpPool.transform);
+                //for (int j = 0; j < powerUpPool.transform.childCount; j++)
+                //{
+                // PowerUpManager.instance.arr.Add(powerUpPool.transform.GetChild(j).gameObject);
+                //}
                 newPowerUp.transform.position = transform.position + new Vector3(DistanceBetween / 2, UnityEngine.Random.Range(powerUpHeight / 2, powerUpHeight), 0f);
                 newPowerUp.SetActive(true);
             }
@@ -173,4 +177,5 @@ public class PlatfromGenerator : MonoBehaviour
 
         }
     }
+
 }

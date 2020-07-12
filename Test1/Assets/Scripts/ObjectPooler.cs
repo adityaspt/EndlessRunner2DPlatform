@@ -14,6 +14,14 @@ public class ObjectPooler : MonoBehaviour
     for (int i=0;i<pooledAmount;i++)
         {
             GameObject obj = (GameObject)Instantiate(pooledObject);
+            if (obj.CompareTag("Kill"))
+            {
+                obj.transform.SetParent(PowerUpManager.instance.spikesPowerPoolObj.transform);
+            }
+            if (obj.CompareTag("Enemy"))
+            {
+                obj.transform.SetParent(PowerUpManager.instance.enemyPowerPoolObj.transform);
+            }
             obj.SetActive(false);
             pooledObjects.Add(obj);
         }
@@ -29,6 +37,14 @@ public class ObjectPooler : MonoBehaviour
             }
         }
         GameObject obj = (GameObject)Instantiate(pooledObject);
+        //if (obj.CompareTag("PowerUp"))
+        //{
+        //    obj.transform.SetParent(PowerUpManager.instance.powerUpPoolerObj.transform);
+        //    for (int j = 0; j < PowerUpManager.instance.powerUpPoolerObj.transform.childCount; j++)
+        //    {
+        //        PowerUpManager.instance.arr.Add(PowerUpManager.instance.powerUpPoolerObj.transform.GetChild(j).gameObject);
+        //    }
+        //}
         obj.SetActive(false);
         pooledObjects.Add(obj);
         return obj;

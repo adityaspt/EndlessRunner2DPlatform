@@ -16,8 +16,12 @@ public class PowerUpManager : MonoBehaviour
     public float powerUpLengthCounter;
     public GameObject Shield;
     public TextMeshProUGUI textImmune;
-    GameObject[] arr;
-    string[] KillTags = { "Kill", "Enemy","Ground" };
+    [SerializeField]
+    public List<GameObject> arr;
+    string[] KillTags = { "Kill", "Enemy", "Ground" };
+
+    public Transform enemyPowerPoolObj;
+    public Transform spikesPowerPoolObj;
     // Start is called before the first frame update
     void Start()
     {
@@ -34,45 +38,48 @@ public class PowerUpManager : MonoBehaviour
 
 
             powerUpLengthCounter -= Time.deltaTime;
-            textImmune.text =  Convert.ToInt32(powerUpLengthCounter).ToString() ;
+            textImmune.text = Convert.ToInt32(powerUpLengthCounter).ToString();
             StartCoroutine(FadeCanvasGroup());
             if (powerUpLengthCounter <= 0)
             {
                 Shield.gameObject.SetActive(false);
                 textImmune.gameObject.SetActive(false);
 
-                //GameObject[] arr;
-                //arr = GameObject.FindGameObjectsWithTag("Kill");
 
-                arr = GameObject.FindGameObjectsWithTag("NoDamage");
+                //for(int i = 0; i < powerUpPoolerObj.childCount; i++)
+                //{
+                //    arr.Add(powerUpPoolerObj.GetChild(i).gameObject);
+                //}
+
+
                 foreach (GameObject item in arr)
                 {
 
 
-                    if (item.name == "TestGround")
-                        item.GetComponent<BoxCollider2D>().isTrigger = true;
+                    //if (item.name == "TestGround")
+                    //    item.GetComponent<BoxCollider2D>().isTrigger = true;
 
-                    else
+                    //else
+                    //{
+                    if (item.gameObject.name.Contains("Spikes"))
                     {
-                        if (item.gameObject.name.Contains("Spikes"))
-                        {
-                            print("Deactivate power spike");
-                            item.gameObject.tag = "Kill";
-
-                        }
-                        if (item.gameObject.name.Contains("Enemy"))
-                        {
-                            print("Deactivate power Enemmy");
-                            item.gameObject.tag = "Enemy";
-
-                        }
-                        item.GetComponent<BoxCollider2D>().isTrigger = true;
-
+                        print("Deactivate power spike");
+                        item.gameObject.tag = "Kill";
 
                     }
+                    if (item.gameObject.name.Contains("Enemy"))
+                    {
+                        print("Deactivate power Enemmy");
+                        item.gameObject.tag = "Enemy";
+
+                    }
+                    item.GetComponent<BoxCollider2D>().isTrigger = true;
+
+
+                    //}
 
                 }
-
+                arr.Clear();
                 powerUpActive = false;
             }
         }
@@ -104,33 +111,43 @@ public class PowerUpManager : MonoBehaviour
 
         yield return new WaitForSeconds(0.75f);
         //PlayerTransparent = !PlayerTransparent;
-       
-         }
-   
+
+    }
+
     public void ActivatePowerUp(bool safe, float time)
     {
 
         //doubleCoin = doublecoin;
         safeMode = safe;
         powerUpLengthCounter = time;
-
-        for (int i = 0; i < KillTags.Length; i++)
+        for (int j = 0; j < enemyPowerPoolObj.transform.childCount; j++)
         {
-            arr = GameObject.FindGameObjectsWithTag(KillTags[i]);
-            foreach (GameObject item in arr)
-            {
-                if (item.name == "TestGround")
-                {
-                    item.GetComponent<BoxCollider2D>().isTrigger = true;
-                    continue;
-                }
-                else
-                {
-                    item.GetComponent<BoxCollider2D>().isTrigger = true;
-                    item.gameObject.tag = "NoDamage";
-                }
-            }
+            arr.Add(enemyPowerPoolObj.transform.GetChild(j).gameObject);
         }
+
+        for (int j = 0; j < spikesPowerPoolObj.transform.childCount; j++)
+        {
+            arr.Add(spikesPowerPoolObj.transform.GetChild(j).gameObject);
+        }
+
+        //for (int i = 0; i < KillTags.Length; i++)
+        //{
+
+
+        foreach (GameObject item in arr)
+        {
+            //if (item.name == "TestGround")
+            //{
+            //    item.GetComponent<BoxCollider2D>().isTrigger = true;
+            //    continue;
+            //}
+            //else
+            //{
+            item.GetComponent<BoxCollider2D>().isTrigger = true;
+            item.gameObject.tag = "NoDamage";
+            //   }
+        }
+        // }
         Shield.gameObject.SetActive(true);
         textImmune.gameObject.SetActive(true);
         powerUpActive = true;
