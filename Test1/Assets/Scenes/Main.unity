@@ -220,6 +220,7 @@ MonoBehaviour:
   RespawnButton: {fileID: 1376766860}
   Lives: {fileID: 203062772}
   WatchAdScreen: {fileID: 1509362024}
+  PauseMenu: {fileID: 2026126616}
 --- !u!1 &45480905
 GameObject:
   m_ObjectHideFlags: 0
@@ -3271,7 +3272,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -1.1999512, y: -13.200012}
+  m_AnchoredPosition: {x: -1.1999512, y: -13.199951}
   m_SizeDelta: {x: -478.7, y: -218.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &726594097
@@ -8982,7 +8983,7 @@ MonoBehaviour:
   enemySpawnPool: {fileID: 1198659585}
   enemyPlaced: 0
   powerUpPool: {fileID: 570812580}
-  powerUpThreshold: 10
+  powerUpThreshold: 7
   powerUpHeight: 3.75
 --- !u!4 &1566287278
 Transform:
@@ -10411,8 +10412,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1687235569}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.8, y: -1.06, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -5.9816, y: -1.2441, z: 0}
+  m_LocalScale: {x: 1.1449, y: 1.1449, z: 1.1449}
   m_Children:
   - {fileID: 715125977}
   - {fileID: 2013577666}
@@ -10457,6 +10458,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca6390b740e4f9143a3bfae54a280688, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  redDashTrail: {fileID: 0}
   bullet: {fileID: 5810796363888884160, guid: 5d1510c8726bd3940a6fcf3d293748c4, type: 3}
   fireRate: 0.275
   pressedFire: 0

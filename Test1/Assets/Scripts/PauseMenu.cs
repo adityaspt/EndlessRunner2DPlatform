@@ -5,8 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
-
-    public PauseMenu pauseScreen;
+   // public static PauseMenu instance;
+    public void Awake()
+    {
+      //  instance = this;
+    }
+    public  PauseMenu pauseScreen;
     // Start is called before the first frame update
     public void restartGame()
     {
@@ -26,7 +30,7 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1f;
     }
     
-    public void PauseGame()
+    public  void PauseGame()
     {
 
         pauseScreen.gameObject.SetActive(true);

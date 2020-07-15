@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class MoveSquare : MonoBehaviour
 {
+    public GameObject redDashTrail;
+
 
     public GameObject bullet;
     Vector2 BulletPos;
@@ -46,10 +48,10 @@ public class MoveSquare : MonoBehaviour
     bool jumpDevice = false;
 
     float fJumpPressedRemember;
-    float fJumpPressedRememberTime = 0.2f;
+    float fJumpPressedRememberTime = 0.6f;//0.2f
 
     float fGroundedRemember;
-    float fGroundedRememberTime = 0.4f;
+    float fGroundedRememberTime = 0.6f;//0.4f
 
     void Start()
     {

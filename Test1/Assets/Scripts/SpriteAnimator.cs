@@ -38,7 +38,7 @@ public class SpriteAnimator : MonoBehaviour
             if (currentFrame == framearray.Length - 1)
             {
                 
-                gameObject.GetComponent<SpriteRenderer>().enabled = false;
+               // gameObject.GetComponent<SpriteRenderer>().enabled = false;
                 spriteRenderer.sprite = framearray[0];
             }
         }

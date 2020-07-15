@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
     public Button RespawnButton;
     public GameObject Lives;
     public GameObject WatchAdScreen;
-    
+    public GameObject PauseMenu;
 
     public void StartRewardAD()
     {
