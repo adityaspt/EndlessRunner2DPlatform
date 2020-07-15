@@ -5,8 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
+    public static MainMenu mainInstance; 
     private void Awake()
     {
+        mainInstance = this;
         if (!PlayerPrefs.HasKey("TutorialShown"))
         {
             PlayerPrefs.SetInt("TutorialShown", 0);

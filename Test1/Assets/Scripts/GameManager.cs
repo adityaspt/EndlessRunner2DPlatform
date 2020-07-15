@@ -21,7 +21,12 @@ public class GameManager : MonoBehaviour
     public Button RespawnButton;
     public GameObject Lives;
     public GameObject WatchAdScreen;
+    
 
+    public void StartRewardAD()
+    {
+        UnityAdsManager.UnityAds.ShowRewardAd();
+    }
 
     public void ClickRespawnButton()
     {
@@ -105,7 +110,14 @@ public class GameManager : MonoBehaviour
             PauseB.SetActive(false);
         }
         thePlayer.gameObject.SetActive(false);
+        UnityAdsManager.UnityAds.ShowInter();
+        
+        //GameManager.gameManagerInstance.UpdateForLives();
         deathscreen.gameObject.SetActive(true);
+        //if (PlayerPrefs.GetInt("Lifes") > 0)
+        //{
+        //    deathscreen.transform.GetChild(4).gameObject.SetActive(false);
+        //}
         PowerUpManager.instance.powerUpLengthCounter = 0f;
         if (PowerUpManager.instance.textImmune.gameObject.activeSelf)
             PowerUpManager.instance.textImmune.gameObject.SetActive(false);
