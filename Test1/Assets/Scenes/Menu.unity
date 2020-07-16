@@ -166,9 +166,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bannerAdID: BannerAd
   GPgameId: 3707893
-  testMode: 1
+  testMode: 0
   RewardPlacementId: rewardedVideo
-  frequencyOfInterstitial: 4
+  frequencyOfInterstitial: 6
 --- !u!1 &320063789
 GameObject:
   m_ObjectHideFlags: 0

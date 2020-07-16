@@ -37,5 +37,7 @@ public class ScoreManager : MonoBehaviour
         }
         scoretext.text = "Score: " + scoreCount;
         highScoreText.text = "High Score: " + highScoreCount;
+
+
     }
 }
